@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/2 | belief&#39;s blog</title>
+  <title>Tag: Hexo 搭建博客 | belief&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="ѧϰ�ܽ� ˼������ ֪ʶ����">
 <meta property="og:type" content="website">
 <meta property="og:title" content="belief's blog">
-<meta property="og:url" content="http://yoursite.com/archives/2015/02/">
+<meta property="og:url" content="http://yoursite.com/tags/Hexo-搭建博客/">
 <meta property="og:site_name" content="belief's blog">
 <meta property="og:description" content="ѧϰ�ܽ� ˼������ ֪ʶ����">
 <meta name="twitter:card" content="summary">
@@ -189,11 +189,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/02/03/hello-world/" class="article-date">
-  	<time datetime="2015-02-03T14:57:30.000Z" itemprop="datePublished">2月 3 2015</time>
+      <a href="/2015/04/10/Hexo搭建博客/" class="article-date">
+  	<time datetime="2015-04-10T05:13:24.000Z" itemprop="datePublished">4月 10 2015</time>
 </a>
     </div>
   
@@ -206,7 +206,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/03/hello-world/">Hello World</a>
+      <a class="article-title" href="/2015/04/10/Hexo搭建博客/">Hexo搭建博客</a>
     </h1>
   
 
@@ -215,31 +215,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>一直想搭建个个人博客，看到很多人使用Hexo，感觉挺不错的，心动不如行动，那就开始吧！</p>
+<h1 id="1，安装Node-js">1，安装Node.js</h1>
+<p>到Node.js官网<a href="https://nodejs.org/download/" target="_blank" rel="external">https://nodejs.org/download/</a>下载对应版本，安装很简单，一直next就行啦。</p>
+<h1 id="2，安装Git">2，安装Git</h1>
+<p>我的电脑是windows系统，到<a href="http://msysgit.github.io/" target="_blank" rel="external">http://msysgit.github.io/</a>上下载msysgit并进行安装</p>
+<h1 id="3，安装Hexo">3，安装Hexo</h1>
+<p>Node和Git都安装好后，打开cmd命令提示符，然后可以执行如下命令安装hexo：</p>
+<blockquote>
+<p>npm install -g hexo</p>
+</blockquote>
+<p>然后初始化Hexo，首先得先打开git bash，进入任意磁盘，假如是F盘，然后依次执行如下命令:</p>
+<blockquote>
+<p>hexo init blog<br> cd blog<br> npm install</p>
+</blockquote>
+<p>这样，就会在F:\blog目录下安装node_modules，然后再执行如下命令：</p>
+<blockquote>
+<p>hexo server</p>
+</blockquote>
+<p>然后在浏览器中打开：<a href="http://localhost:4000/，这时就可以看到Hexo已为你生成了一篇blog。可以按Ctrl+C停止server" target="_blank" rel="external">http://localhost:4000/，这时就可以看到Hexo已为你生成了一篇blog。可以按Ctrl+C停止server</a>.</p>
+<h1 id="4，新建文章">4，新建文章</h1>
+<p>在git bash命令行中cd 到F:\blog下，然后执行如下命令：</p>
+<blockquote>
+<p>$ hexo new “Hexo搭建博客”</p>
+</blockquote>
 
       
     </div>
     
     <div class="article-info article-info-index">
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo-搭建博客/">Hexo 搭建博客</a></li></ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Hexo/">Hexo</a>
+	</div>
+
 
       
       <div class="clearfix"></div>
