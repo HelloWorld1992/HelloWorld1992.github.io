@@ -9,7 +9,7 @@
 Quick">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2015/02/03/hello-world/">
+<meta property="og:url" content="http://www.belief1992.com/2015/02/03/hello-world/">
 <meta property="og:site_name" content="belief's blog">
 <meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in trobuleshooting or you can ask me on GitHub.
 Quick">
@@ -22,11 +22,10 @@ Quick">
     <link rel="alternative" href="/atom.xml" title="belief&#39;s blog" type="application/atom+xml">
   
   
-    <link rel="icon" href="img/author.jpg">
+    <link rel="icon" href="/favicon.jpg">
   
   <link rel="stylesheet" href="/css/style.css" type="text/css">
 
-  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 </head>
 <body>
   <div id="container">
@@ -35,7 +34,9 @@ Quick">
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="img/me.jpg">
+			
+			<img lazy-src="/me.jpg" class="js-avatar">
+			
 		</a>
 
 		<hgroup>
@@ -105,7 +106,7 @@ Quick">
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="github" target="_blank" href="https://github.com/onslaughtmonkey" title="github">github</a>
+								<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
 					        
 								<a class="weibo" target="_blank" href="http://weibo.com/2733026551/profile?topnav=1&wvr=6" title="weibo">weibo</a>
 					        
@@ -118,7 +119,7 @@ Quick">
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Hexo/" style="font-size: 20.00px;">Hexo</a><a href="/tags/Hexo-搭建博客/" style="font-size: 10.00px;">Hexo 搭建博客</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/性能优化/" style="font-size: 20.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 20.00px;">搭建博客</a>
+						<a href="/tags/Hexo/" style="font-size: NaNpx;">Hexo</a><a href="/tags/android/" style="font-size: NaNpx;">android</a><a href="/tags/性能优化/" style="font-size: NaNpx;">性能优化</a><a href="/tags/搭建博客/" style="font-size: NaNpx;">搭建博客</a>
 					</div>
 				</section>
 				
@@ -156,11 +157,11 @@ Quick">
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="img/me.jpg">
-				<hgroup>
-				  <h1 class="header-author">belief</h1>
-				</hgroup>
+				<img lazy-src="/me.jpg" class="js-avatar">
 			</div>
+			<hgroup>
+			  <h1 class="header-author">belief</h1>
+			</hgroup>
 			
 			<p class="header-subtitle">be a happy coder</p>
 			
@@ -179,7 +180,7 @@ Quick">
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="https://github.com/onslaughtmonkey" title="github">github</a>
+						<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
 			        
 						<a class="weibo" target="_blank" href="http://weibo.com/2733026551/profile?topnav=1&wvr=6" title="weibo">weibo</a>
 			        
@@ -285,7 +286,7 @@ Quick">
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="hello-world" data-title="Hello World" data-url="http://yoursite.com/2015/02/03/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="hello-world" data-title="Hello World" data-url="http://www.belief1992.com/2015/02/03/hello-world/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -301,6 +302,7 @@ Quick">
 	</script>
 	<!-- 多说公共JS代码 end -->
 </div>
+
 
 
 
@@ -321,11 +323,22 @@ Quick">
     
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
 
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
-
-<script src="/js/mobile.js" type="text/javascript"></script>
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 
 <script src="/js/main.js" type="text/javascript"></script>
 
@@ -334,7 +347,6 @@ Quick">
 
 
 
-<! -- mathjax config similar to math.stackexchange -->
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -357,7 +369,7 @@ MathJax.Hub.Queue(function() {
 </script>
 
 
-
   </div>
+  <a href="https://github.com/HelloWorld1992"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
 </body>
 </html>
