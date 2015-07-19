@@ -123,7 +123,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Hexo/" style="font-size: NaNpx;">Hexo</a><a href="/tags/android/" style="font-size: NaNpx;">android</a><a href="/tags/性能优化/" style="font-size: NaNpx;">性能优化</a><a href="/tags/搭建博客/" style="font-size: NaNpx;">搭建博客</a>
+						<a href="/tags/Hexo/" style="font-size: NaNpx;">Hexo</a><a href="/tags/android/" style="font-size: NaNpx;">android</a><a href="/tags/学习/" style="font-size: NaNpx;">学习</a><a href="/tags/性能优化/" style="font-size: NaNpx;">性能优化</a><a href="/tags/搭建博客/" style="font-size: NaNpx;">搭建博客</a><a href="/tags/随笔/" style="font-size: NaNpx;">随笔</a>
 					</div>
 				</section>
 				
@@ -144,7 +144,7 @@
 				
 				<section class="switch-part switch-part4">
 				
-					<div id="js-aboutme">平凡的码农</div>
+					<div id="js-aboutme">小小程序猿一枚，专注于Android, Java开发。爱运动，爱做饭，爱动漫。</div>
 				</section>
 				
 			</div>
@@ -306,8 +306,10 @@
 <h1 id="8，Github的域名绑定">8，Github的域名绑定</h1>
 <p>如何购买域名就不说了，可以去网上搜教程（我是在GoDaddy上买的，支持支付宝付款），GoDaddy的NameServer有时会被墙，因此强烈推荐国内的DNSPod解析<br>域名，免费服务真心不错。首先进入DNSPod,然后添加购买的域名，点击进去就像如下图所示：<br><img src="/pictures/dnspod.jpg" alt="界面渲染"><br>图中的NS记录是DNSPod默认的绑定，其中的记录值配置到GoDaddy的Nameservers中即可.其中的CNAME记录类型是我自己添加的，后面的记录值就是之前在github上建的仓库helloworld1992.github.io，CNAME用于绑定一个域名，先新建CNAME文件，我是放在/blog/source/ 目录下，然后把域名写进这个文件，例如我的域名是belief1992.com，则直接把belief1992.com写进CNAME文件，然后执行如下命令：</p>
 <blockquote>
-<p>hexo clean<br> hexo generate<br> hexo deploy<br>这样，打开github进入仓库，就会发现根目录下多了一个CNAME文件。<br>好啦，大功告成啦，打开浏览器，输入“belief1992.com”访问，是不是很酷啊~~</p>
+<p>hexo clean<br> hexo generate<br> hexo deploy</p>
 </blockquote>
+<p>这样，打开github进入仓库，就会发现根目录下多了一个CNAME文件。<br>好啦，大功告成啦，打开浏览器，输入“belief1992.com”访问，是不是很酷啊~~</p>
+<p>参考文献：<br>[1]<a href="http://cnyod.com/2015/03/04/sub02/" target="_blank" rel="external">如何搭建个人博客网站（Github+Hexo+Dnspod+GoDaddy)</a><br>[2]<a href="http://www.tuicool.com/articles/AfQnQjy" target="_blank" rel="external">hexo你的博客</a><br>[3]<a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一个独立博客——简明Github Pages与Hexo教程</a><br>[4]<a href="http://ruikye.com/2014/08/31/github_domain/" target="_blank" rel="external">Github 的域名绑定</a></p>
 
       
     </div>
@@ -436,6 +438,6 @@ MathJax.Hub.Queue(function() {
 
 
   </div>
-  <a href="https://github.com/HelloWorld1992"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+ 
 </body>
 </html>
