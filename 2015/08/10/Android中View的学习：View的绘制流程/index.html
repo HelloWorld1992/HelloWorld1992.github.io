@@ -3,23 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>“不要等我变了，才说怀念以前的我” | belief&#39;s blog</title>
+  <title>Android中View的学习：View的绘制流程 | belief&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="偶然看到的，心有感触：
-
-我不问 + 你不说 = 误会我问了 + 你不说 = 隔阂我问了 + 你说了 = 尊重你想说 + 我想问 = 信任心若亲近，言行必如流水般自然心若疏远，言行只如三秋之树般萧瑟且行且珍惜，望人与人之间多一些沟通，多一份信任——致渐行渐远的人">
+  <meta name="description" content="View的绘制流程都必须经历三个主要过程：measure、layout、draw。整个View树的绘制流程是在ViewRootImpl类的performTraversal()方法开始的，该函数主要判断是否重新计算(measure)视图大小、是否重新放置(layout)视图的位置、以及是否重绘(draw)。该过程的大致流程图如下：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“不要等我变了，才说怀念以前的我”">
-<meta property="og:url" content="http://belief1992.com/2015/07/21/不要等我变了，才说怀念以前的我/">
+<meta property="og:title" content="Android中View的学习：View的绘制流程">
+<meta property="og:url" content="http://belief1992.com/2015/08/10/Android中View的学习：View的绘制流程/">
 <meta property="og:site_name" content="belief's blog">
-<meta property="og:description" content="偶然看到的，心有感触：
-
-我不问 + 你不说 = 误会我问了 + 你不说 = 隔阂我问了 + 你说了 = 尊重你想说 + 我想问 = 信任心若亲近，言行必如流水般自然心若疏远，言行只如三秋之树般萧瑟且行且珍惜，望人与人之间多一些沟通，多一份信任——致渐行渐远的人">
+<meta property="og:description" content="View的绘制流程都必须经历三个主要过程：measure、layout、draw。整个View树的绘制流程是在ViewRootImpl类的performTraversal()方法开始的，该函数主要判断是否重新计算(measure)视图大小、是否重新放置(layout)视图的位置、以及是否重绘(draw)。该过程的大致流程图如下：">
+<meta property="og:image" content="/pictures/view.jpg">
+<meta property="og:image" content="/pictures/measure.jpg">
+<meta property="og:image" content="/pictures/layout.jpg">
+<meta property="og:image" content="/pictures/draw.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“不要等我变了，才说怀念以前的我”">
-<meta name="twitter:description" content="偶然看到的，心有感触：
-
-我不问 + 你不说 = 误会我问了 + 你不说 = 隔阂我问了 + 你说了 = 尊重你想说 + 我想问 = 信任心若亲近，言行必如流水般自然心若疏远，言行只如三秋之树般萧瑟且行且珍惜，望人与人之间多一些沟通，多一份信任——致渐行渐远的人">
+<meta name="twitter:title" content="Android中View的学习：View的绘制流程">
+<meta name="twitter:description" content="View的绘制流程都必须经历三个主要过程：measure、layout、draw。整个View树的绘制流程是在ViewRootImpl类的performTraversal()方法开始的，该函数主要判断是否重新计算(measure)视图大小、是否重新放置(layout)视图的位置、以及是否重绘(draw)。该过程的大致流程图如下：">
 
   
     <link rel="alternative" href="/atom.xml" title="belief&#39;s blog" type="application/atom+xml">
@@ -169,11 +167,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-不要等我变了，才说怀念以前的我" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android中View的学习：View的绘制流程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/07/21/不要等我变了，才说怀念以前的我/" class="article-date">
-  	<time datetime="2015-07-21T15:08:57.000Z" itemprop="datePublished">7月 21 2015</time>
+      <a href="/2015/08/10/Android中View的学习：View的绘制流程/" class="article-date">
+  	<time datetime="2015-08-10T14:28:55.000Z" itemprop="datePublished">8月 10 2015</time>
 </a>
     </div>
   
@@ -186,7 +184,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      “不要等我变了，才说怀念以前的我”
+      Android中View的学习：View的绘制流程
     </h1>
   
 
@@ -195,12 +193,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语录/">语录</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/View/">View</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
+	<a class="article-category-link" href="/categories/学习/">学习</a>
 	</div>
 
 
@@ -210,10 +208,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>偶然看到的，心有感触：</p>
+        <p>View的绘制流程都必须经历三个主要过程：measure、layout、draw。整个View树的绘制流程是在ViewRootImpl类的performTraversal()方法开始的，该函数主要判断是否重新计算(measure)视图大小、是否重新放置(layout)视图的位置、以及是否重绘(draw)。该过程的大致流程图如下：<a id="more"></a><br><img src="/pictures/view.jpg" alt="view绘制的大致流程图"></p>
+<hr>
+<h1 id="View绘制流程第一步：measure">View绘制流程第一步：measure</h1>
+<p>measure流程是从顶层父view向子view递归调用view.measure方法（measure中回调onMeasure方法）的过程。为整个View树计算实际的大小，即设置实际的宽和高（mMeasuredWidth,mMeasuredHeight）,每个view的实际宽高都是由父视图和本身视图决定的。该流程的measure流程图如下：<br><img src="/pictures/measure.jpg" alt="view绘制的measure流程图"><br>ViewRoot根对象属性mView调用measure方法计算view树的大小，回调view/ViewGroup对象的onMeasure方法，从而实现：<br>1，设置本View视图的最终大小，该功能的实现通过setMeasuredDimension方法去设置实际的宽和高。<br>2，如果该View对象是个ViewGroup类型，需要重写该onMeasure方法，对其子视图进行遍历的measure()过程，对每个子视图的measure()过程，是通过调用父类的measureChildWithMargins()方法来实现，<br>MeasureSpec(View的内部类)测量规格为int型，值由高16位的规格模式specMode和低16位具体尺寸specSize组成，有三种值</p>
 <blockquote>
-<p>我不问 + 你不说 = 误会<br>我问了 + 你不说 = 隔阂<br>我问了 + 你说了 = 尊重<br>你想说 + 我想问 = 信任<br>心若亲近，言行必如流水般自然<br>心若疏远，言行只如三秋之树般萧瑟<br>且行且珍惜，望人与人之间多一些沟通，多一份信任<br>——致渐行渐远的人</p>
+<p>MeasureSpec.EXACTLY 表示父视图希望子视图的大小应该是由specSize的值来决定的系统默认会按照这个规则来设置子视图的大小<br>MeasureSpec.AT_MOST 表示子视图最多只能是specSize中指定的大小<br>MeasureSpec.UNSPECIFIED 表示将视图按照自己的意愿设置成任意的大小，很少用到。</p>
 </blockquote>
+<p>注意点：使用View的getMeasuredWidth()和getMeasuredHeight()方法来获取view测量的宽高，必须保证这两个方法在onMeasure()流程之后被调用才能返回有效值。</p>
+<hr>
+<h1 id="View绘制流程第二步：layout">View绘制流程第二步：layout</h1>
+<p>layout过程是根据上一步measure子view所得到的布局大小和布局参数，将子view放在合适的位置上。流程图如下：<br><img src="/pictures/layout.jpg" alt="view绘制的layout流程图"><br>layout方法会设置子view视图位于父视图的位置，即mLeft,mTop,mLeft,mBottom（调用setFrame()方法实现），接下来回调onLayout方法（如果该view是ViewGroup，需要实现该方法，对每个子视图进行布局，通过遍历每个子视图，调用该子视图的layout()方法去设置坐标）。<br>注意点：<br>1，凡是layout_xxx的布局属性基本针对的是包含子view的ViewGroup的，当一个没有父容器的View设置相关layout_xxx属性是没有意义的。<br>2，使用view的getWidth和getHeight方法来获取view测量的宽高，必须保证这两个方法在onLayout流程之后被调用才能返回有效值。</p>
+<hr>
+<h1 id="View绘制流程第三步：draw">View绘制流程第三步：draw</h1>
+<p>draw的流程图如下：<br><img src="/pictures/draw.jpg" alt="view绘制的draw流程图"><br>由ViewRoot对象的performTraversals()方法调用draw()方法发起绘制该View树，值得注意的是每次发起绘图时，并不会重新绘制每个View树的视图，而只会重新绘制那些“需要重绘”的视图，View类内部变量包含了一个标志位DRAWN，当该视图需要重绘时，就会为该View添加该标志位。调用流程 ：<br>mView.draw()开始绘制，draw()方法实现的功能如下：<br>1,绘制该View的背景<br>2,为显示渐变框做一些准备操作(见5，大多数情况下，不需要改渐变框)<br>3,调用onDraw()方法绘制视图本身   (每个View都需要重载该方法，ViewGroup不需要实现该方法)<br>4,调用dispatchDraw()方法绘制子视图(如果该View类型不为ViewGroup，即不包含子视图，不需要重载该方法).值得说明的是，ViewGroup类已经为我们重写了dispatchDraw()的功能实现，应用程序一般不需要重写该方法，但可以重载父类函数实现具体的功能。dispatchDraw()方法内部会遍历每个子视图，调用drawChild()去重新回调每个子视图的draw()方法(注意，这个地方“需要重绘”的视图才会调用draw()方法)。值得说明的是，ViewGroup类已经为我们重写了dispatchDraw()的功能实现，应用程序一般不需要重写该方法，但可以重载父类函数实现具体的功能。<br>5,绘制滚动条</p>
+<hr>
+<p>Android中View的学习是个难点，掌握view的绘制流程是深入学习view的第一步，接下来将学习view的事件传递机制，对日后学习自定义view打下良好基础。</p>
 
       
     </div>
@@ -223,18 +233,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/07/25/心智的成熟-《少有人走的路》读书笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          心智的成熟--《少有人走的路》读书笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/07/19/做个行动派/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">做个行动派</div>
+    <a href="/2015/08/02/常怀感恩之心/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">常怀感恩之心</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -263,7 +264,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="不要等我变了，才说怀念以前的我" data-title="“不要等我变了，才说怀念以前的我”" data-url="http://belief1992.com/2015/07/21/不要等我变了，才说怀念以前的我/"></div>
+	<div class="ds-thread" data-thread-key="Android中View的学习：View的绘制流程" data-title="Android中View的学习：View的绘制流程" data-url="http://belief1992.com/2015/08/10/Android中View的学习：View的绘制流程/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
