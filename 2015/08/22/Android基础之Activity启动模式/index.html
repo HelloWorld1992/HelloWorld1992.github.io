@@ -3,23 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>做个行动派 | belief&#39;s blog</title>
+  <title>Android基础之Activity启动模式 | belief&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="去年暑假就想自己搭建一个个人博客，把平时的学习总结以及生活感悟记录下来，可是一直没有付诸行动。这两天突然想起这事，于是痛快的下手，做的过程中遇到了一些问题，还好有google，最后还是完成啦，成就感满满的~~~做个行动派！
-
-生活中至少存在两种类型的人：一是天天沉浸于幻想中，看不到一点行动的痕迹；二是善于把想法落实到计划中，成为一个敢于行动的人。你是哪一类人？凭你自己的经历，你已经找到了答案。">
+  <meta name="description" content="官方参考：http://developer.android.com/guide/topics/manifest/activity-element.html#lmodehttp://developer.android.com/guide/components/tasks-and-back-stack.html
+一般的，我们可以直接在AndroidManifest.xml文件的标签的launchMod">
 <meta property="og:type" content="article">
-<meta property="og:title" content="做个行动派">
-<meta property="og:url" content="http://belief1992.com/2015/07/19/做个行动派/">
+<meta property="og:title" content="Android基础之Activity启动模式">
+<meta property="og:url" content="http://belief1992.com/2015/08/22/Android基础之Activity启动模式/">
 <meta property="og:site_name" content="belief's blog">
-<meta property="og:description" content="去年暑假就想自己搭建一个个人博客，把平时的学习总结以及生活感悟记录下来，可是一直没有付诸行动。这两天突然想起这事，于是痛快的下手，做的过程中遇到了一些问题，还好有google，最后还是完成啦，成就感满满的~~~做个行动派！
-
-生活中至少存在两种类型的人：一是天天沉浸于幻想中，看不到一点行动的痕迹；二是善于把想法落实到计划中，成为一个敢于行动的人。你是哪一类人？凭你自己的经历，你已经找到了答案。">
+<meta property="og:description" content="官方参考：http://developer.android.com/guide/topics/manifest/activity-element.html#lmodehttp://developer.android.com/guide/components/tasks-and-back-stack.html
+一般的，我们可以直接在AndroidManifest.xml文件的标签的launchMod">
+<meta property="og:image" content="/pictures/activity_launchmode1.jpg">
+<meta property="og:image" content="/pictures/activity_launchmode2.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="做个行动派">
-<meta name="twitter:description" content="去年暑假就想自己搭建一个个人博客，把平时的学习总结以及生活感悟记录下来，可是一直没有付诸行动。这两天突然想起这事，于是痛快的下手，做的过程中遇到了一些问题，还好有google，最后还是完成啦，成就感满满的~~~做个行动派！
-
-生活中至少存在两种类型的人：一是天天沉浸于幻想中，看不到一点行动的痕迹；二是善于把想法落实到计划中，成为一个敢于行动的人。你是哪一类人？凭你自己的经历，你已经找到了答案。">
+<meta name="twitter:title" content="Android基础之Activity启动模式">
+<meta name="twitter:description" content="官方参考：http://developer.android.com/guide/topics/manifest/activity-element.html#lmodehttp://developer.android.com/guide/components/tasks-and-back-stack.html
+一般的，我们可以直接在AndroidManifest.xml文件的标签的launchMod">
 
   
     <link rel="alternative" href="/atom.xml" title="belief&#39;s blog" type="application/atom+xml">
@@ -169,11 +168,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-做个行动派" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android基础之Activity启动模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/07/19/做个行动派/" class="article-date">
-  	<time datetime="2015-07-19T12:25:33.000Z" itemprop="datePublished">7月 19 2015</time>
+      <a href="/2015/08/22/Android基础之Activity启动模式/" class="article-date">
+  	<time datetime="2015-08-22T08:06:35.000Z" itemprop="datePublished">8月 22 2015</time>
 </a>
     </div>
   
@@ -186,7 +185,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      做个行动派
+      Android基础之Activity启动模式
     </h1>
   
 
@@ -195,12 +194,12 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/思考与感悟/">思考与感悟</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activity/">activity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 	</div>
 
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
+	<a class="article-category-link" href="/categories/学习/">学习</a>
 	</div>
 
 
@@ -210,9 +209,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>　　去年暑假就想自己搭建一个个人博客，把平时的学习总结以及生活感悟记录下来，可是一直没有付诸行动。这两天突然想起这事，于是痛快的下手，做的过程中遇到了一些问题，还好有google，最后还是完成啦，成就感满满的~~~做个行动派！</p>
+        <p>官方参考：<br><a href="http://developer.android.com/guide/topics/manifest/activity-element.html#lmode" target="_blank" rel="external">http://developer.android.com/guide/topics/manifest/activity-element.html#lmode</a><br><a href="http://developer.android.com/guide/components/tasks-and-back-stack.html" target="_blank" rel="external">http://developer.android.com/guide/components/tasks-and-back-stack.html</a></p>
+<p>一般的，我们可以直接在AndroidManifest.xml文件的<activity>标签的launchMode属性中设置activity的启动模式，共有四种，分别为：standard, sindleTop, singleTask, singleInstance.<a id="more"></a></activity></p>
+<p>下图是从官网上截下来的，对这四种启动模式算是比较好的解释了：<br><img src="/pictures/activity_launchmode1.jpg" alt="Activity启动模式"><br><img src="/pictures/activity_launchmode2.jpg" alt="Activity启动模式"></p>
+<h2 id="standard">standard</h2>
+<p>这是默认的模式，每次启动都会创建一个实例，每个实例会处理单独的intent。</p>
+<h2 id="singleTop">singleTop</h2>
+<p>和standard模式差不多，但是使用该模式启动的activity有两种情况，如果目标task已经存在一个此activity的实例在栈顶，那么这个实例会通过onNewIntent方法收到这个intent，新的实例就不会创建。如果已经存在的activity实例在目标task中，但不是在栈顶，则新的实例就会被创建并且加入栈。</p>
+<h2 id="singleTask">singleTask</h2>
+<p>和standard和singleTop可以拥有多个实例不同，该模式的activity只允许在系统中有一个实例，如果系统中已经有了一个实例，持有这个实例的任务将移动到顶部，同时intent将被通过onNewIntent()发送。如果没有，则会创建一个新的Activity并置放在合适的任务中。</p>
+<h2 id="singleInstance">singleInstance</h2>
+<p>和singleTask相同，唯一的差别是系统不会加载其他activity到其保持的task中，这个activity通常是它在task中的唯一成员。</p>
+<hr>
+<p>除了使用launchMode属性设置启动模式，还可以通过设置Intent的flag来启动activity。</p>
+<h2 id="FALG_ACTIVITY_NEW_TASK">FALG_ACTIVITY_NEW_TASK</h2>
 <blockquote>
-<p>生活中至少存在两种类型的人：一是天天沉浸于幻想中，看不到一点行动的痕迹；二是善于把想法落实到计划中，成为一个敢于行动的人。你是哪一类人？凭你自己的经历，你已经找到了答案。毫无疑问，如果你有一个梦想，或者决定做一件事，那么，就立刻行动起来。如果你只想不做，是不会有收获的。要知道，100次心动不如一次行动。</p>
+<p>Start the activity in a new task. If a task is already running for the activity you are now starting, that task is brought to the foreground with its last state restored and the activity receives the new intent in onNewIntent().<br>效果和singleTask相同。</p>
+</blockquote>
+<h2 id="FLAG_ACTIVITY_SINGLE_TOP">FLAG_ACTIVITY_SINGLE_TOP</h2>
+<blockquote>
+<p>If the activity being started is the current activity (at the top of the back stack), then the existing instance receives a call to onNewIntent(), instead of creating a new instance of the activity.<br>效果和singleTop相同。</p>
+</blockquote>
+<h2 id="FLAG_ACTIVITY_CLEAR_TOP">FLAG_ACTIVITY_CLEAR_TOP</h2>
+<blockquote>
+<p>If the activity being started is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it are destroyed and this intent is delivered to the resumed instance of the activity (now on top), through onNewIntent()).<br>如果使用该标识启动的activity已存在于当前task,则不会重新实例化一个activity,而是将该activity上面所有的activity销毁掉并置于栈顶。</p>
 </blockquote>
 
       
@@ -223,18 +243,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/07/25/心智的成熟-《少有人走的路》读书笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          心智的成熟--《少有人走的路》读书笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/07/19/google最新android性能优化指南/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">google最新android性能优化指南</div>
+    <a href="/2015/08/22/Android基础之Activity学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android基础之Activity学习</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -263,7 +274,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="做个行动派" data-title="做个行动派" data-url="http://belief1992.com/2015/07/19/做个行动派/"></div>
+	<div class="ds-thread" data-thread-key="Android基础之Activity启动模式" data-title="Android基础之Activity启动模式" data-url="http://belief1992.com/2015/08/22/Android基础之Activity启动模式/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
