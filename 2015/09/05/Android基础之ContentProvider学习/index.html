@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android基础之ContentProvider学习 | belief&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="内容提供者将一些特定的应用程序数据供给其它应用程序使用。数据可以存储于文件系统、SQLite数据库或其它方式。内容提供者继承于ContentProvider基类，为其它应用程序取用和存储它管理的数据实现了一套标准方法。然而，应用程序并不直接调用这些方法，而是使用一个ContentResolver对象，调用它的方法作为替代。ContentResolver可以与任意内容提供者进行会话，与其合作来对所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android基础之ContentProvider学习">
+<meta property="og:url" content="http://belief1992.com/2015/09/05/Android基础之ContentProvider学习/">
+<meta property="og:site_name" content="belief's blog">
+<meta property="og:description" content="内容提供者将一些特定的应用程序数据供给其它应用程序使用。数据可以存储于文件系统、SQLite数据库或其它方式。内容提供者继承于ContentProvider基类，为其它应用程序取用和存储它管理的数据实现了一套标准方法。然而，应用程序并不直接调用这些方法，而是使用一个ContentResolver对象，调用它的方法作为替代。ContentResolver可以与任意内容提供者进行会话，与其合作来对所有">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android基础之ContentProvider学习">
+<meta name="twitter:description" content="内容提供者将一些特定的应用程序数据供给其它应用程序使用。数据可以存储于文件系统、SQLite数据库或其它方式。内容提供者继承于ContentProvider基类，为其它应用程序取用和存储它管理的数据实现了一套标准方法。然而，应用程序并不直接调用这些方法，而是使用一个ContentResolver对象，调用它的方法作为替代。ContentResolver可以与任意内容提供者进行会话，与其合作来对所有">
+
+  
+    <link rel="alternative" href="/atom.xml" title="belief&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/me.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">belief</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">不执著，不闪躲，不掩饰，不证明，却依然持有这份信仰。</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/categories/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Hexo/" style="font-size: 10.00px;">Hexo</a><a href="/tags/View/" style="font-size: 10.00px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/心理学/" style="font-size: 15.00px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 10.00px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">小小程序猿一枚，专注于Android, Java开发。热爱生活，热爱互联网，热血动漫‘脑残粉’。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">belief</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/me.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">belief</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">不执著，不闪躲，不掩饰，不证明，却依然持有这份信仰。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/categories/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android基础之ContentProvider学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/05/Android基础之ContentProvider学习/" class="article-date">
+  	<time datetime="2015-09-05T02:16:13.000Z" itemprop="datePublished">9月 5 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android基础之ContentProvider学习
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>内容提供者将一些特定的应用程序数据供给其它应用程序使用。数据可以存储于文件系统、SQLite数据库或其它方式。内容提供者继承于ContentProvider基类，为其它应用程序取用和存储它管理的数据实现了一套标准方法。然而，应用程序并不直接调用这些方法，而是使用一个ContentResolver对象，调用它的方法作为替代。ContentResolver可以与任意内容提供者进行会话，与其合作来对所有相关交互通讯进行管理。<a id="more"></a></p>
+<hr>
+<p>ContentProvider是如何共享数据的呢？我们需要了解两个知识，一个是URI，一个是MIME<br>1，URI：统一资源标识符，代表要操作的数据，可以用来标识每个ContentProvider，这样你就可以通过指定的URI找到想要的ContentProvider,从中获取或修改数据。例如：content://com.belief.contentproviderpractice/notes/1<br>上面这个uri主要分为三部分，scheme,authority,path.分别对应上面uri的：content://、com.belief.contentproviderpractice、notes或者notes/1</p>
+<p>2，MIME：MIME是指定某个扩展名的文件用一种应用程序来打开，就像你用浏览器查看PDF格式的文件，浏览器会选择合适的应用来打开一样。Android中的工作方式跟HTTP类似，ContentProvider会根据URI来返回MIME类型，ContentProvider会返回一个包含两部分的字符串。Android MIME类型有两种形式：多条记录（集合）和单条记录。<br>多条记录：vnd.android.cursor.dir/vnd.alexzhou.note<br>单条记录：vnd.android.cursor.item/vnd.alexzhou.note<br>vnd表示这些类型和子类型具有非标准的、供应商特定的形式。Android中类型已经固定好了，不能更改，只能区别是集合还是单条具体记录，子类型vnd.之后的内容可以按照格式随便填写。在使用Intent时，会用到MIME这玩意，根据Mimetype打开符合条件的活动。</p>
+<p>下面以一个实例来学习ContentProvider的简单实用：</p>
+<pre><code><span class="comment">//该类用于封装URI和数据库表和字段信息</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoteData</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AUTHORITY = <span class="string">"com.belief.contentproviderpractice.NoteContentProvider"</span>;
+
+    <span class="comment">//数据库</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DATABASE_NAME = <span class="string">"note.db"</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DATABASE_VERSION = <span class="number">1</span>;
+
+    <span class="comment">//数据库表notes相关的元数据</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NotesTableData</span> <span class="keyword">implements</span> <span class="title">BaseColumns</span></span>{
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TABLE_NAME = <span class="string">"notes"</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Uri CONTENT_URI = Uri.parse(<span class="string">"content://"</span>+AUTHORITY+<span class="string">"/notes"</span>);
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CONTENT_TYPE = <span class="string">"vnd.android.cursor.dir/vnd.belief.notes"</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CONTENT_ITEM_TYPE = <span class="string">"vnd.android.cursor.item/vnd.belief.notes"</span>;
+
+        <span class="comment">//字段</span>
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NOTE_TITLE = <span class="string">"title"</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NOTE_CONTENT = <span class="string">"content"</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NOTE_TIME = <span class="string">"create_time"</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NOTE_TYPE = <span class="string">"type"</span>;
+
+        <span class="comment">//默认排序方式</span>
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_ORDERBY = <span class="string">"create_time desc"</span>;
+        <span class="comment">//建表sql</span>
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREATE_NOTES_TABLE = <span class="string">"create table "</span> + TABLE_NAME + <span class="string">"("</span>
+                + _ID + <span class="string">" integer primary key,"</span>
+                + NOTE_TITLE + <span class="string">" varchar(64),"</span>
+                + NOTE_CONTENT + <span class="string">" text,"</span>
+                + NOTE_TIME + <span class="string">" integer,"</span>
+                + NOTE_TYPE + <span class="string">" varchar(8)"</span>
+                + <span class="string">");"</span>;
+    }
+}
+</code></pre><hr>
+<pre><code><span class="comment">//实现ContentProvider</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoteContentProvider</span> <span class="keyword">extends</span> <span class="title">ContentProvider</span></span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AUTHORITY = <span class="string">"com.belief.contentproviderpractice.NoteContentProvider"</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Uri CONTENT_URI = Uri.parse(<span class="string">"content://"</span>+AUTHORITY+<span class="string">"/notes"</span>);
+
+    <span class="keyword">private</span> DatabaseOpenHelper mDatabaseOpenHelper;
+
+    <span class="comment">//UriMatcher识别uri类型</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> UriMatcher mUriMatcher;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COLLECTION_DATA = <span class="number">1</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SINGLE_DATA = <span class="number">2</span>;
+    <span class="keyword">static</span>{
+        mUriMatcher = <span class="keyword">new</span> UriMatcher(UriMatcher.NO_MATCH);<span class="comment">//当没有匹配到时，会返回该常量</span>
+        mUriMatcher.addURI(NoteData.AUTHORITY, <span class="string">"notes"</span>, COLLECTION_DATA);<span class="comment">//匹配notes所有数据</span>
+        mUriMatcher.addURI(NoteData.AUTHORITY, <span class="string">"notes/#"</span>, SINGLE_DATA);<span class="comment">//匹配notes表单条数据,"#"代表匹配任意数字</span>
+    }
+
+    <span class="comment">//为数据库表字段设置一个映射，key为抽象字段名称(key可以和数据库表中的字段不一样)，value为数据库中的字段名称</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;String,String&gt; mNotesColumnMap;
+    <span class="keyword">static</span>{
+        mNotesColumnMap = <span class="keyword">new</span> HashMap&lt;&gt;();
+        mNotesColumnMap.put(NoteData.NotesTableData._ID, NoteData.NotesTableData._ID);
+        mNotesColumnMap.put(NoteData.NotesTableData.NOTE_TITLE, NoteData.NotesTableData.NOTE_TITLE);
+        mNotesColumnMap.put(NoteData.NotesTableData.NOTE_CONTENT, NoteData.NotesTableData.NOTE_CONTENT);
+        mNotesColumnMap.put(NoteData.NotesTableData.NOTE_TIME, NoteData.NotesTableData.NOTE_TIME);
+        mNotesColumnMap.put(NoteData.NotesTableData.NOTE_TYPE, NoteData.NotesTableData.NOTE_TYPE);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreate</span>() {
+        mDatabaseOpenHelper = <span class="keyword">new</span> DatabaseOpenHelper(getContext());
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> Cursor <span class="title">query</span>(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = <span class="keyword">new</span> SQLiteQueryBuilder();
+        <span class="keyword">switch</span> (mUriMatcher.match(uri)){
+            <span class="keyword">case</span> COLLECTION_DATA:
+                queryBuilder.setTables(NoteData.NotesTableData.TABLE_NAME);<span class="comment">//设置查询的表</span>
+                queryBuilder.setProjectionMap(mNotesColumnMap);<span class="comment">//设置投影映射</span>
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> SINGLE_DATA:
+                queryBuilder.setTables(NoteData.NotesTableData.TABLE_NAME);
+                queryBuilder.setProjectionMap(mNotesColumnMap);
+                queryBuilder.appendWhere(NoteData.NotesTableData._ID + <span class="string">"="</span> + uri.getPathSegments().get(<span class="number">1</span>));
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"未知的uri"</span>);
+        }
+        String orderBy;
+        <span class="keyword">if</span>(TextUtils.isEmpty(sortOrder)){
+            orderBy = NoteData.NotesTableData.DEFAULT_ORDERBY;
+        }<span class="keyword">else</span>{
+            orderBy = sortOrder;
+        }
+        SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, <span class="keyword">null</span>, <span class="keyword">null</span>, orderBy);
+        <span class="keyword">return</span> cursor;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> String <span class="title">getType</span>(Uri uri) {
+        <span class="keyword">switch</span> (mUriMatcher.match(uri)){
+            <span class="keyword">case</span> COLLECTION_DATA:
+                <span class="keyword">return</span> NoteData.NotesTableData.CONTENT_TYPE;
+            <span class="keyword">case</span> SINGLE_DATA:
+                <span class="keyword">return</span> NoteData.NotesTableData.CONTENT_ITEM_TYPE;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"未知的uri"</span>);
+        }
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> Uri <span class="title">insert</span>(Uri uri, ContentValues values) {
+        <span class="keyword">if</span>(mUriMatcher.match(uri) != COLLECTION_DATA){
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"未知的uri"</span>);
+        }
+        SQLiteDatabase db = mDatabaseOpenHelper.getWritableDatabase();
+        <span class="keyword">long</span> rowId = db.insert(NoteData.NotesTableData.TABLE_NAME, <span class="keyword">null</span>, values);
+        <span class="keyword">if</span>(rowId &gt; <span class="number">0</span>){
+            Uri returnUri = ContentUris.withAppendedId(NoteData.NotesTableData.CONTENT_URI, rowId);
+            <span class="keyword">return</span> returnUri;<span class="comment">//返回新创建的记录的uri;</span>
+        }
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span>(Uri uri, String selection, String[] selectionArgs) {
+        SQLiteDatabase db = mDatabaseOpenHelper.getWritableDatabase();
+        <span class="keyword">int</span> count = -<span class="number">1</span>;
+        <span class="keyword">switch</span> (mUriMatcher.match(uri)){
+            <span class="keyword">case</span> COLLECTION_DATA:
+                count = db.delete(NoteData.NotesTableData.TABLE_NAME, selection, selectionArgs);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> SINGLE_DATA:
+                String rowId = uri.getPathSegments().get(<span class="number">1</span>);
+                count = db.delete(NoteData.NotesTableData.TABLE_NAME, NoteData.NotesTableData._ID + <span class="string">"="</span> + rowId,<span class="keyword">null</span>);
+                <span class="keyword">break</span>;
+        }
+        <span class="keyword">this</span>.getContext().getContentResolver().notifyChange(uri,<span class="keyword">null</span>);
+        <span class="keyword">return</span> count;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span>(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        SQLiteDatabase db = mDatabaseOpenHelper.getWritableDatabase();
+        <span class="keyword">int</span> count = -<span class="number">1</span>;
+        <span class="keyword">switch</span>(mUriMatcher.match(uri)){
+            <span class="keyword">case</span> COLLECTION_DATA:
+                count = db.update(NoteData.NotesTableData.TABLE_NAME, values, <span class="keyword">null</span>, <span class="keyword">null</span>);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> SINGLE_DATA:
+                String rowId = uri.getPathSegments().get(<span class="number">1</span>);
+                count = db.update(NoteData.NotesTableData.TABLE_NAME, values, NoteData.NotesTableData._ID + <span class="string">"="</span> + rowId, <span class="keyword">null</span>);
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"未知的uri"</span>);
+        }
+        <span class="keyword">this</span>.getContext().getContentResolver().notifyChange(uri, <span class="keyword">null</span>);<span class="comment">//更新数据，通知其他监听对象</span>
+        <span class="keyword">return</span> count;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseOpenHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span> </span>{
+
+        <span class="keyword">public</span> <span class="title">DatabaseOpenHelper</span>(Context context){
+            <span class="keyword">super</span>(context, NoteData.DATABASE_NAME, <span class="keyword">null</span>, NoteData.DATABASE_VERSION);
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span>(SQLiteDatabase db) {
+            db.execSQL(NoteData.NotesTableData.CREATE_NOTES_TABLE);
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span>(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion) {
+            db.execSQL(<span class="string">"drop table if exists"</span> + NoteData.NotesTableData.TABLE_NAME);
+        }
+    }
+}
+</code></pre><hr>
+<pre><code><span class="comment">//通过ContentResolver访问数据</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span></span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;
+
+    <span class="keyword">private</span> TextView mInsertTv;
+    <span class="keyword">private</span> TextView mQueryTv;
+    <span class="keyword">private</span> TextView mUpdateTv;
+    <span class="keyword">private</span> TextView mDeleteTv;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        findView();
+        setListener();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">findView</span>(){
+        mInsertTv = (TextView)findViewById(R.id.insert_tv);
+        mQueryTv = (TextView)findViewById(R.id.query_tv);
+        mUpdateTv = (TextView)findViewById(R.id.update_tv);
+        mDeleteTv = (TextView)findViewById(R.id.delete_tv);
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setListener</span>(){
+        mInsertTv.setOnClickListener(<span class="keyword">this</span>);
+        mQueryTv.setOnClickListener(<span class="keyword">this</span>);
+        mUpdateTv.setOnClickListener(<span class="keyword">this</span>);
+        mDeleteTv.setOnClickListener(<span class="keyword">this</span>);
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span>(){
+        ContentValues values = <span class="keyword">new</span> ContentValues();
+        values.put(NoteData.NotesTableData.NOTE_TITLE, <span class="string">"ContentProvider 学习"</span>);
+        values.put(NoteData.NotesTableData.NOTE_CONTENT, <span class="string">"内容好多哦"</span>);
+        values.put(NoteData.NotesTableData.NOTE_TIME, System.currentTimeMillis());
+        values.put(NoteData.NotesTableData.NOTE_TYPE, <span class="string">"Android"</span>);
+        Uri uri = <span class="keyword">this</span>.getContentResolver().insert(NoteContentProvider.CONTENT_URI,values);
+        Log.d(TAG, uri.toString());
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">query</span>(){
+        Cursor cursor = <span class="keyword">this</span>.getContentResolver().query(NoteContentProvider.CONTENT_URI, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);
+        Log.d(TAG, <span class="string">"数据量："</span> + cursor.getCount());
+        <span class="keyword">while</span>(cursor.moveToNext()){
+            String title = cursor.getString(cursor.getColumnIndex(NoteData.NotesTableData.NOTE_TITLE));
+            String content = cursor.getString(cursor.getColumnIndex(NoteData.NotesTableData.NOTE_CONTENT));
+            <span class="keyword">long</span> time = cursor.getLong(cursor.getColumnIndex(NoteData.NotesTableData.NOTE_TIME));
+            String type = cursor.getString(cursor.getColumnIndex(NoteData.NotesTableData.NOTE_TYPE));
+            Log.d(TAG, <span class="string">"title :"</span> + title);
+            Log.d(TAG, <span class="string">"content :"</span> + content);
+            Log.d(TAG, <span class="string">"time : "</span> + time);
+            Log.d(TAG, <span class="string">"type : "</span> + type);
+        }
+        cursor.close();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">update</span>(){
+        ContentValues values = <span class="keyword">new</span> ContentValues();
+        values.put(NoteData.NotesTableData.NOTE_TYPE, <span class="string">"Android基础学习"</span>);
+        <span class="keyword">int</span> count = <span class="keyword">this</span>.getContentResolver().update(NoteData.NotesTableData.CONTENT_URI, values, NoteData.NotesTableData._ID + <span class="string">"="</span> + <span class="number">1</span>,<span class="keyword">null</span>);
+        Log.d(TAG, <span class="string">"count :"</span> +count);
+        query();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">delete</span>(){
+        <span class="keyword">int</span> count = <span class="keyword">this</span>.getContentResolver().delete(NoteData.NotesTableData.CONTENT_URI, NoteData.NotesTableData._ID + <span class="string">"="</span> + <span class="number">1</span>, <span class="keyword">null</span>);
+        Log.d(TAG, <span class="string">"count :"</span> + count);
+        query();
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {
+        <span class="keyword">switch</span> (v.getId()){
+            <span class="keyword">case</span> R.id.insert_tv:
+                insert();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> R.id.query_tv:
+                query();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> R.id.update_tv:
+                update();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> R.id.delete_tv:
+                delete();
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                <span class="keyword">break</span>;
+        }
+    }
+}
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/30/Android开发之拍照或从图库获取照片/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android开发之拍照或从图库获取照片</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android基础之ContentProvider学习" data-title="Android基础之ContentProvider学习" data-url="http://belief1992.com/2015/09/05/Android基础之ContentProvider学习/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 belief
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+ 
+</body>
+</html>
