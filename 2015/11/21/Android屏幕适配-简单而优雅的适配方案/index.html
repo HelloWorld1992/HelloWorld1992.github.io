@@ -212,7 +212,7 @@
 <blockquote>
 <p>mdpi        (dpi = 160, density = 1)<br>  hdpi        (dpi = 240, density = 1.5)<br>  xhdpi        (dpi = 320, density = 2)<br>  xxhdpi    (dpi = 480, density = 3)  </p>
 </blockquote>
-<p>由于各种屏幕的像素密度都有所不同，因此相同数量的像素在不同设备上的实际大小也有所差异，这样使用像素定义布局尺寸就会产生问题。因为，应该采用谷歌<br>推荐的dip或sp单位制定尺寸。虽然dip可以解决不同像素密度的问题，使得1dip在不同像素密度上面的显示效果相同，但是由于Android设备屏幕宽度并不都是相同<br>，虽然结合match_parent, wrap_content, weight等能够实现大部分适配，但这还不是完美的解决方案。下面，让我来介绍一种简单而优雅的比较完美的适配方案。</p>
+<p>由于各种屏幕的像素密度都有所不同，因此相同数量的像素在不同设备上的实际大小也有所差异，这样使用像素定义布局尺寸就会产生问题。应该采用谷歌推荐的dip或sp单位制定尺寸。虽然dip可以解决不同像素密度的问题，使得1dip在不同像素密度上面的显示效果相同，但是由于Android设备屏幕宽度并不都是相同，虽然结合match_parent, wrap_content,weight等能够实现大部分适配，但这还不是完美的解决方案。下面，让我来介绍一种简单而优雅的比较完美的适配方案。</p>
 <hr>
 <p>使用320px=320dp的分辨率为基准，将屏幕宽度分为320等分。那么，在320px分辨率的手机下，1单位长度=1px，在640px分辨率下，1单位长度=2px。先获取用户手机的屏幕宽度，最后算出设置的px在用户手机上真实的px值。<br>下面这个类是核心，通过这个类，我们可以在布局文件中设置控件的宽和高，宽和高都是以dip为单位，因为将屏幕分为320等分，所以设置的宽最大为320dip.</p>
 <pre><code><span class="javadoc">/**
@@ -298,8 +298,8 @@
         startActivity(intent);
     }
 }
-
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplication</span> <span class="keyword">extends</span> <span class="title">Application</span></span>{
+</code></pre><hr>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplication</span> <span class="keyword">extends</span> <span class="title">Application</span></span>{
 
     <span class="keyword">public</span> <span class="keyword">static</span> Context context;
 
@@ -319,7 +319,7 @@
     }
 }
 </code></pre><hr>
-<p>除了在布局文件中对控件进行设置宽高，我们还会在代码中进行设置，下面这个工具方法实现了适配。使用方式：例如设计师给了一个在640的分辨率下的设计稿，<br>其中有个控件设计的宽和高为64px*64px，那么我们在布局中设置值得时候就是宽高分别为32dip, 在代码中就使用DimenUtil.getRealPx(context, 32)来获取真实的px值。</p>
+<p>除了在布局文件中对控件进行设置宽高，我们还会在代码中进行设置，下面这个工具方法实现了适配。使用方式：例如设计师给了一个在640的分辨率下的设计稿，其中有个控件设计的宽和高为64px*64px，那么我们在布局中设置值得时候就是宽高分别为32dip, 在代码中就使用DimenUtil.getRealPx(context, 32)来获取真实的px值。</p>
 <pre><code><span class="javadoc">/**
  * 用于处理多分辨率下不同尺度的问题。
  * 以320×480分辨率为准，该分辨率下1基准px=1px.
