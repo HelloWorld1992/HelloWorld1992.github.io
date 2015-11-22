@@ -191,111 +191,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近遇到一个关于Toast的问题，用户反馈说输入用户名或密码错误后，连个提示都没有。但是在代码中我们确实使用了Toast来反馈信息啊。后来发现是用户把通知栏消息权限关掉了，导致Toast不显示。目前发现有魅族手机以及部分华为手机，当把通知栏消息权限关掉后是不会显示Toast的。后来看了下Toast的源码，实现挺简单的，就是在Window上加了个View，然后使用NotificationManager来管理显示。为了解决用户反馈的问题，于是仿造系统Toast自定义了一个Toast，只不过不使用NotifacationManager。具体实现如下:</p>
-<pre><code><span class="javadoc">/**
- * Android系统自带的Toast是通过系统NotificationManager管理的，这样会有一个问题：
- * 有的机型例如魅族，如果用户把通知栏消息权限关掉后，Toast会无法显示。
- * 下面这个自定义的Toast是不依赖NotificationManager的。
- * Created by wh on 2015/11/22.
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToastUtil</span> </span>{
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LENGTH_LONG = <span class="number">3500</span>; <span class="comment">//3.5 秒</span>
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LENGTH_SHORT = <span class="number">2000</span>; <span class="comment">//2秒</span>
-
-    <span class="keyword">private</span> <span class="keyword">static</span> View mToastView;
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> mGravity, mX, mY;
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> WindowManager.LayoutParams mParams = <span class="keyword">new</span> WindowManager.LayoutParams();
-    <span class="keyword">private</span> <span class="keyword">static</span> WindowManager mWindowManager;
-    <span class="keyword">private</span> <span class="keyword">static</span> Handler mHandler = <span class="keyword">new</span> Handler();
-
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span>(){
-        mY = BaseApplication.context.getResources().getDimensionPixelSize(R.dimen.toast_height);
-        mGravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-        LayoutInflater inflater = (LayoutInflater) BaseApplication.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        <span class="comment">//使用自定义的布局</span>
-        mToastView = inflater.inflate(R.layout.toast_layout, <span class="keyword">null</span>);
-
-        mParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        mParams.format = PixelFormat.TRANSLUCENT;
-        mParams.windowAnimations = R.style.ToastAnimation;
-        mParams.type = WindowManager.LayoutParams.TYPE_TOAST;
-        mParams.setTitle(<span class="string">"Toast"</span>);
-        mParams.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-        mParams.packageName = BaseApplication.context.getPackageName();
-        mParams.gravity = mGravity;
-        <span class="keyword">if</span>((mGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL){
-            mParams.horizontalWeight = <span class="number">1.0</span>f;
-        }
-        <span class="keyword">if</span>((mGravity &amp; Gravity.VERTICAL_GRAVITY_MASK) == Gravity.FILL_VERTICAL){
-            mParams.verticalWeight = <span class="number">1.0</span>f;
-        }
-        mParams.x = mX;
-        mParams.y = mY;
-        mWindowManager = (WindowManager)BaseApplication.context.getSystemService(Context.WINDOW_SERVICE);
-    }
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="keyword">final</span> CharSequence text, <span class="keyword">int</span> duration){
-        <span class="keyword">if</span>(mWindowManager == <span class="keyword">null</span> || mToastView == <span class="keyword">null</span>){
-            init();
-        }
-        mHandler.removeCallbacks(cancelRunnable);
-        mHandler.post(<span class="keyword">new</span> Runnable() {
-            <span class="annotation">@Override</span>
-            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
-                TextView messageTv = (TextView)mToastView.findViewById(R.id.message);
-                messageTv.setText(text);
-                <span class="keyword">if</span>(mToastView.getParent() != <span class="keyword">null</span>){
-                    mWindowManager.removeViewImmediate(mToastView);
-                }
-                mWindowManager.addView(mToastView, mParams);
-            }
-        });
-        mHandler.postDelayed(cancelRunnable, duration);
-    }
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showLong</span>(String tips){
-        show(tips, LENGTH_LONG);
-    }
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showShort</span>(String tips){
-        show(tips, LENGTH_SHORT);
-    }
-
-    <span class="keyword">private</span> <span class="keyword">static</span> Runnable cancelRunnable = <span class="keyword">new</span> Runnable() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
-            cancel();
-        }
-    };
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cancel</span>(){
-        <span class="keyword">if</span>(mToastView != <span class="keyword">null</span> &amp;&amp; mToastView.getParent() != <span class="keyword">null</span>){
-            mWindowManager.removeViewImmediate(mToastView);
-        }
-    }
-}
-</code></pre><p>用例：<br>    public class MainActivity extends AppCompatActivity {</p>
-<pre><code>    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {
-        <span class="keyword">super</span>.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        findViewById(R.id.toast_tv).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {
-            <span class="annotation">@Override</span>
-            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {
-                <span class="comment">//ToastUtil.show("自定义时长", 5000);</span>
-                <span class="comment">//ToastUtil.show("LengthLong", ToastUtil.LENGTH_LONG);</span>
-                ToastUtil.show(<span class="string">"LengthShort"</span>, ToastUtil.LENGTH_SHORT);
-            }
-        });
-    }
-}
-</code></pre><hr>
-<p>GitHub地址：(<a href="https://github.com/HelloWorld1992/SimpleToast" target="_blank" rel="external">https://github.com/HelloWorld1992/SimpleToast</a>)</p>
-
+        <p>最近遇到一个关于Toast的问题，用户反馈说输入用户名或密码错误后，连个提示都没有。但是在代码中我们确实使用了Toast来反馈信息啊。后来发现是用户把通知栏消息权限关掉了，导致Toast不显示。目前发现有魅族手机以及部分华为手机，当把通知栏消息权限关掉后是不会显示Toast的。后来看了下Toast的源码，实现挺简单的，就是在Window上加了个View，然后使用NotificationManager来管理显示。为了解决用户反馈的问题，于是仿造系统Toast自定义了一个Toast，只不过不使用NotifacationManager。具体实现如下:
       
     </div>
     
@@ -312,6 +208,10 @@
 	</div>
 
 
+      
+        <p class="article-more-link">
+          <a  href="/2015/11/22/系统Toast在部分机型不显示的解决方案/#more">more >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
