@@ -216,7 +216,7 @@
         <p>参考：(<a href="http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf" target="_blank" rel="external">http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf</a>)</p>
 <p>本文主要给出Android触摸屏事件传递机制，并以简单的例子来展示事件分发过程。相关源码比较多，有兴趣的可以自己阅读。</p>
 <h1 id="事件分发机制">事件分发机制</h1>
-<p>事件的处理有：传递-dispatchTouchEvent()、拦截-onInterceptTouchEvent()、消费-onTouchEvent()和OnTouchListener三类。</p>
+<p>事件的处理有：传递-dispatchTouchEvent()、拦截-onInterceptTouchEvent()、消费-onTouchEvent()和OnTouchListener三类。<br><a id="more"></a></p>
 <p>1，事件是从Activity.dispatchTouchEvent()开始传递，在该方法中通过Activity的rootView（id为content的FrameLayout，实质上是ViewGroup）的super.dispatchTouchEvent把事件分发给Activity的子view(也就是setContentView设置的view)。只要没有被停止或拦截，一直从上往下传递，最后子view可以通过onTouchEvent()对事件进行处理。</p>
 <p>2，事件是由父View(ViewGroup)传递给子View，ViewGroup可以通过onInterceptTouchEvent()对事件进行拦截，该方法默认返回false，不截获事件，如果该方法返回true，就会停止往下传递。</p>
 <p>3，如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，如果父View(ViewGroup)还没有<br>消费(onTouchEvent返回true)的话，最后会到Activity的onTouchEvent()。</p>
@@ -257,6 +257,8 @@
 }
 
 
+
+
 <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TouchButton</span> <span class="keyword">extends</span> <span class="title">Button</span></span>{
     <span class="keyword">public</span> <span class="title">TouchButton</span>(Context context, AttributeSet attrs) {
         <span class="keyword">super</span>(context, attrs);
@@ -275,15 +277,24 @@
         <span class="comment">//return false;</span>
     }
 }
-</code></pre><p>然后在布局文件中以TouchLinearLayout为父布局，里面包含一个子View：TouchButton<br>    &lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <com.belief.toucheventpractice.widget.touchlinearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/linear_ly" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center"></com.belief.toucheventpractice.widget.touchlinearlayout></p>
-<pre><code>    &lt;com.belief.toucheventpractice.widget.TouchButton
-        android:<span class="variable">id=</span><span class="string">"@+id/button"</span>
-        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span>
-        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span>
-        android:<span class="variable">text=</span><span class="string">"Touch Me"</span>/&gt;
-&lt;/com.belief.toucheventpractice.widget.TouchLinearLayout&gt;
-</code></pre><p>在Activity为这两个View设置OnTouchListener和OnClickListener:<br>    public class MainActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener{</p>
-<pre><code>    <span class="keyword">private</span> LinearLayout mLinearLy;
+</code></pre><p>然后在布局文件中以TouchLinearLayout为父布局，里面包含一个子View：TouchButton</p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="tag">&lt;<span class="title">com.belief.toucheventpractice.widget.TouchLinearLayout</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span>
+    <span class="attribute">android:id</span>=<span class="value">"@+id/linear_ly"</span>
+    <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span>
+    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span>
+    <span class="attribute">android:gravity</span>=<span class="value">"center"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">com.belief.toucheventpractice.widget.TouchButton
+</span>        <span class="attribute">android:id</span>=<span class="value">"@+id/button"</span>
+        <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span>
+        <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span>
+        <span class="attribute">android:text</span>=<span class="value">"Touch Me"</span>/&gt;</span>
+<span class="tag">&lt;/<span class="title">com.belief.toucheventpractice.widget.TouchLinearLayout</span>&gt;</span>
+</code></pre><p>在Activity为这两个View设置OnTouchListener和OnClickListener:</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnTouchListener</span>, <span class="title">View</span>.<span class="title">OnClickListener</span></span>{
+
+    <span class="keyword">private</span> LinearLayout mLinearLy;
     <span class="keyword">private</span> Button mButton;
 
     <span class="annotation">@Override</span>
