@@ -105,7 +105,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Hexo/" style="font-size: 10.00px;">Hexo</a><a href="/tags/View/" style="font-size: 10.00px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/心理学/" style="font-size: 15.00px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 10.00px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a>
+						<a href="/tags/Hexo/" style="font-size: 10.00px;">Hexo</a><a href="/tags/View/" style="font-size: 15.00px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/心理学/" style="font-size: 15.00px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 10.00px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,181 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Android触摸事件分发机制" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/29/Android触摸事件分发机制/" class="article-date">
+  	<time datetime="2015-11-29T13:01:05.000Z" itemprop="datePublished">11月 29 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/29/Android触摸事件分发机制/">Android触摸事件分发机制</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考：(<a href="http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf" target="_blank" rel="external">http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf</a>)</p>
+<p>本文主要给出Android触摸屏事件传递机制，并以简单的例子来展示事件分发过程。相关源码比较多，有兴趣的可以自己阅读。</p>
+<h1 id="事件分发机制">事件分发机制</h1>
+<p>事件的处理有：传递-dispatchTouchEvent()、拦截-onInterceptTouchEvent()、消费-onTouchEvent()和OnTouchListener三类。</p>
+<p>1，事件是从Activity.dispatchTouchEvent()开始传递，在该方法中通过Activity的rootView（id为content的FrameLayout，实质上是ViewGroup）的super.dispatchTouchEvent把事件分发给Activity的子view(也就是setContentView设置的view)。只要没有被停止或拦截，一直从上往下传递，最后子view可以通过onTouchEvent()对事件进行处理。</p>
+<p>2，事件是由父View(ViewGroup)传递给子View，ViewGroup可以通过onInterceptTouchEvent()对事件进行拦截，该方法默认返回false，不截获事件，如果该方法返回true，就会停止往下传递。</p>
+<p>3，如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，如果父View(ViewGroup)还没有<br>消费(onTouchEvent返回true)的话，最后会到Activity的onTouchEvent()。</p>
+<p>4，如果View没有对ACTION_DOWN进行消费，那么之后的其他事件不会传递过来。</p>
+<p>5，事件传递首先执行dispatchTouchEvent方法，在dispatchTouchEvent方法中先执行onTouch方法，后执行onClick方法，并且onClick方法在onTouchEvent方法中执行(准确的说是在该方法的ACTION_UP事件中执行)</p>
+<p>6，如果控件View的onTouch返回false或者没有设置OnTouchListener或者不是enable的情况下会执行onTouchEvent方法，dispatchTouchEvent返回值与onTouchEvent返回值一样</p>
+<p>7，如果控件不是enable的设置了onTouch方法也不会执行，只能通过重写控件的onTouchEvent方法处理，dispatchTouchEvent返回值与onTouchEvent一样</p>
+<p>8，如果控件是enable且onTouch方法返回true，则不会调用onTouchEvent方法，从而也不会调用onClick方法，dispatchTouchEvent方法直接返回true</p>
+<p>9，当dispatchTouchEvent在进行事件分发的时候，只有前一个action返回true,才会触发下一个action。</p>
+<p>onInterceptTouchEvent()与onTouchEvent()的机制：<br>1，ACTION_DOWN事件首先会传递到ViewGroup的onInterceptTouchEvent方法，<br>2，如果该方法在接收到down事件处理完成之后返回false，那么后续的move,up等事件将继续会先传递给该ViewGroup,之后才和down事件一样传递给目标View的onTouchEvent()处理.<br>3，如果ViewGroup的onInterceptTouchEvent方法在接收到down事件处理完成之后返回true,那么后续的move,up等事件将不再传递给onInterceptTouchEvent方法，而是和down事件一样传递给该ViewGroup的onTouchEvent()处理，这样的话，目标View将接受不到任何事件。<br>4，如果最终需要处理事件的view的onTouchEvent()反悔了false,那么该事件将被传递到其上一层的view的onTouchEvent()处理。<br>5，如果最终需要处理事件的view的onTouchEvent()反悔了true,那么后续事件将可以继续传递给该view的onTouchEvent()处理。</p>
+<hr>
+<h1 id="示例">示例</h1>
+<p>下面是两个自定义View，简单的重写了dispatchTouchEvent和onTouchEvent方法：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TouchLinearLayout</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span></span>{
+    <span class="keyword">public</span> <span class="title">TouchLinearLayout</span>(Context context, AttributeSet attrs) {
+        <span class="keyword">super</span>(context, attrs);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span>(MotionEvent ev) {
+        Log.i(<span class="string">"TouchLog"</span>, <span class="string">"TouchLinearLayout-dispatchTouchEvent-action:"</span>+ev.getAction());
+        <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span>(MotionEvent ev) {
+        Log.i(<span class="string">"TouchLog"</span>,<span class="string">"TouchLinearLayout-onInterceptTouchEvent-action:"</span>+ev.getAction());
+        <span class="keyword">return</span> <span class="keyword">super</span>.onInterceptTouchEvent(ev);
+        <span class="comment">//return true;</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span>(MotionEvent event) {
+        Log.i(<span class="string">"TouchLog"</span>,<span class="string">"TouchLinearLayout-onTouchEvent-action:"</span>+event.getAction());
+        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);
+        <span class="comment">//return true;</span>
+    }
+}
+
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TouchButton</span> <span class="keyword">extends</span> <span class="title">Button</span></span>{
+    <span class="keyword">public</span> <span class="title">TouchButton</span>(Context context, AttributeSet attrs) {
+        <span class="keyword">super</span>(context, attrs);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span>(MotionEvent event) {
+        Log.i(<span class="string">"TouchLog"</span>,<span class="string">"TouchButton-dispatchTouchEvent-action:"</span>+event.getAction());
+        <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(event);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span>(MotionEvent event) {
+        Log.i(<span class="string">"TouchLog"</span>,<span class="string">"TouchButton-onTouchEvent-action:"</span>+event.getAction());
+        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);
+        <span class="comment">//return false;</span>
+    }
+}
+</code></pre><p>然后在布局文件中以TouchLinearLayout为父布局，里面包含一个子View：TouchButton<br>    &lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <com.belief.toucheventpractice.widget.touchlinearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/linear_ly" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center"></com.belief.toucheventpractice.widget.touchlinearlayout></p>
+<pre><code>    &lt;com.belief.toucheventpractice.widget.TouchButton
+        android:<span class="variable">id=</span><span class="string">"@+id/button"</span>
+        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span>
+        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span>
+        android:<span class="variable">text=</span><span class="string">"Touch Me"</span>/&gt;
+&lt;/com.belief.toucheventpractice.widget.TouchLinearLayout&gt;
+</code></pre><p>在Activity为这两个View设置OnTouchListener和OnClickListener:<br>    public class MainActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener{</p>
+<pre><code>    <span class="keyword">private</span> LinearLayout mLinearLy;
+    <span class="keyword">private</span> Button mButton;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mLinearLy = (LinearLayout)findViewById(R.id.linear_ly);
+        mButton = (Button)findViewById(R.id.button);
+
+        mLinearLy.setOnTouchListener(<span class="keyword">this</span>);
+        mButton.setOnTouchListener(<span class="keyword">this</span>);
+
+        mLinearLy.setOnClickListener(<span class="keyword">this</span>);
+        mButton.setOnClickListener(<span class="keyword">this</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span>(View v, MotionEvent event) {
+        Log.i(<span class="string">"TouchLog"</span>, <span class="string">"OnTouchListener--onTouch--Event:"</span>+event.getAction()+<span class="string">"--View:"</span>+v);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="comment">//return true;</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {
+        Log.i(<span class="string">"TouchLog"</span>, <span class="string">"OnClickListener--onClick:"</span>+v);
+    }
+}
+</code></pre><p>运行后，点击Button，查看log，输出结果是：</p>
+<blockquote>
+<p>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:0<br>I/TouchLog: TouchButton-dispatchTouchEvent-action:0<br>I/TouchLog: OnTouchListener—onTouch—Event:0—View:com.belief.toucheventpractice.widget.TouchButton<br>I/TouchLog: TouchButton-onTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:2<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:2<br>I/TouchLog: TouchButton-dispatchTouchEvent-action:2<br>I/TouchLog: OnTouchListener—onTouch—Event:2—View:com.belief.toucheventpractice.widget.TouchButton<br>I/TouchLog: TouchButton-onTouchEvent-action:2<br>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:1<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:1<br>I/TouchLog: TouchButton-dispatchTouchEvent-action:1<br>I/TouchLog: OnTouchListener—onTouch—Event:1—View:com.belief.toucheventpractice.widget.TouchButton<br>I/TouchLog: TouchButton-onTouchEvent-action:1<br>I/TouchLog: OnClickListener—onClick:com.belief.toucheventpractice.widget.TouchButton</p>
+</blockquote>
+<p>点击除Button外的区域，查看log，输出：</p>
+<blockquote>
+<p>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:0<br>I/TouchLog: OnTouchListener—onTouch—Event:0—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:1<br>I/TouchLog: OnTouchListener—onTouch—Event:1—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:1<br>I/TouchLog: OnClickListener—onClick:com.belief.toucheventpractice.widget.TouchLinearLayout</p>
+</blockquote>
+<p>将TouchLinearLayout的onInterceptTouchEvent方法返回true，运行后点击Button，查看log:</p>
+<blockquote>
+<p>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:0<br>I/TouchLog: OnTouchListener—onTouch—Event:0—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:1<br>I/TouchLog: OnTouchListener—onTouch—Event:1—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:1<br>I/TouchLog: OnClickListener—onClick:com.belief.toucheventpractice.widget.TouchLinearLayout</p>
+</blockquote>
+<p>将TouchLinearLayout的onInterceptTouchEvent方法返回false,onTouchEvent方法返回true,TouchButton的onTouchEvent方法返回false:</p>
+<blockquote>
+<p>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-onInterceptTouchEvent-action:0<br>I/TouchLog: TouchButton-dispatchTouchEvent-action:0<br>I/TouchLog: OnTouchListener—onTouch—Event:0—View:com.belief.toucheventpractice.widget.TouchButton<br>I/TouchLog: TouchButton-onTouchEvent-action:0<br>I/TouchLog: OnTouchListener—onTouch—Event:0—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:0<br>I/TouchLog: TouchLinearLayout-dispatchTouchEvent-action:1<br>I/TouchLog: OnTouchListener—onTouch—Event:1—View:com.belief.toucheventpractice.widget.TouchLinearLayout<br>I/TouchLog: TouchLinearLayout-onTouchEvent-action:1</p>
+</blockquote>
+<p>看到没，和最开始给出的结论一致~~</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/View/">View</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-系统Toast在部分机型不显示的解决方案" class="article article-type-post" itemscope itemprop="blogPost">
   
