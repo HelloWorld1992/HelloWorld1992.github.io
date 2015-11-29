@@ -219,7 +219,7 @@
 <p>事件的处理有：传递-dispatchTouchEvent()、拦截-onInterceptTouchEvent()、消费-onTouchEvent()和OnTouchListener三类。<br><a id="more"></a></p>
 <p>1，事件是从Activity.dispatchTouchEvent()开始传递，在该方法中通过Activity的rootView（id为content的FrameLayout，实质上是ViewGroup）的super.dispatchTouchEvent把事件分发给Activity的子view(也就是setContentView设置的view)。只要没有被停止或拦截，一直从上往下传递，最后子view可以通过onTouchEvent()对事件进行处理。</p>
 <p>2，事件是由父View(ViewGroup)传递给子View，ViewGroup可以通过onInterceptTouchEvent()对事件进行拦截，该方法默认返回false，不截获事件，如果该方法返回true，就会停止往下传递。</p>
-<p>3，如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，如果父View(ViewGroup)还没有<br>消费(onTouchEvent返回true)的话，最后会到Activity的onTouchEvent()。</p>
+<p>3，如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，如果父View(ViewGroup)还没有消费(onTouchEvent返回true)的话，最后会到Activity的onTouchEvent()。</p>
 <p>4，如果View没有对ACTION_DOWN进行消费，那么之后的其他事件不会传递过来。</p>
 <p>5，事件传递首先执行dispatchTouchEvent方法，在dispatchTouchEvent方法中先执行onTouch方法，后执行onClick方法，并且onClick方法在onTouchEvent方法中执行(准确的说是在该方法的ACTION_UP事件中执行)</p>
 <p>6，如果控件View的onTouch返回false或者没有设置OnTouchListener或者不是enable的情况下会执行onTouchEvent方法，dispatchTouchEvent返回值与onTouchEvent返回值一样</p>
