@@ -105,7 +105,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Hexo/" style="font-size: 10.00px;">Hexo</a><a href="/tags/View/" style="font-size: 16.67px;">View</a><a href="/tags/activity/" style="font-size: 13.33px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/心理学/" style="font-size: 13.33px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 13.33px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 10.00px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a>
+						<a href="/tags/Handler/" style="font-size: 10.00px;">Handler</a><a href="/tags/Hexo/" style="font-size: 10.00px;">Hexo</a><a href="/tags/View/" style="font-size: 16.67px;">View</a><a href="/tags/activity/" style="font-size: 13.33px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/心理学/" style="font-size: 13.33px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 13.33px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 10.00px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,68 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Android的消息机制" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/19/Android的消息机制/" class="article-date">
+  	<time datetime="2015-12-19T13:26:04.000Z" itemprop="datePublished">12月 19 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/19/Android的消息机制/">Android的消息机制</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler/">Handler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/12/19/Android的消息机制/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-Android自定义View-使用Scroller实现View的滑动" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -711,69 +773,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/08/10/Android中View的学习：View的绘制流程/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-google最新android性能优化指南" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/19/google最新android性能优化指南/" class="article-date">
-  	<time datetime="2015-07-19T11:01:55.000Z" itemprop="datePublished">7月 19 2015</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/19/google最新android性能优化指南/">google最新android性能优化指南</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android性能优化典范">Android性能优化典范</h1>
-<p>　　2015年伊始，Google发布了关于Android性能优化典范的专题，一共16个短视频，每个3-5分钟，帮助开发者创建更快更优秀的AndroidApp。课程专题不仅仅介绍了Android系统中有关性能问题的底层工作原理，同时也介绍了如何通过工具来找出性能问题以及提升性能的建议。主要从三个方面展开，Android的渲染机制，内存与GC，电量优化。下面是对这些问题和建议的总结梳理。
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/学习/">学习</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/07/19/google最新android性能优化指南/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

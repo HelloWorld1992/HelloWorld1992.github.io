@@ -3,23 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>人生中不可不想的事 | Daniel_Wen&#39;s blog</title>
+  <title>Android的消息机制 | Daniel_Wen&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="得到充分的知识和经验是一项伟大的艺术，也就是试着去了解生命的丰富、存在的美、挣扎、悲哀、欢笑、泪水，同时让你的心智保持单纯，只有当你的心智单纯时，你才能了解如何去爱。
-
-很少人知道如何生活，大部分的人只是苟且偷生，因此生活才变成一件可怕的事，真正的生活需要极大的爱，需要对寂静有很深的感受，需要有丰富的经验，却又保有赤子之心。它需要能够清楚思考的心智，不被偏见、迷信、期望或恐惧所捆绑。">
+  <meta name="description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="人生中不可不想的事">
-<meta property="og:url" content="http://belief1992.com/2015/08/26/人生中不可不想的事/">
+<meta property="og:title" content="Android的消息机制">
+<meta property="og:url" content="http://belief1992.com/2015/12/19/Android的消息机制/">
 <meta property="og:site_name" content="Daniel_Wen's blog">
-<meta property="og:description" content="得到充分的知识和经验是一项伟大的艺术，也就是试着去了解生命的丰富、存在的美、挣扎、悲哀、欢笑、泪水，同时让你的心智保持单纯，只有当你的心智单纯时，你才能了解如何去爱。
-
-很少人知道如何生活，大部分的人只是苟且偷生，因此生活才变成一件可怕的事，真正的生活需要极大的爱，需要对寂静有很深的感受，需要有丰富的经验，却又保有赤子之心。它需要能够清楚思考的心智，不被偏见、迷信、期望或恐惧所捆绑。">
+<meta property="og:description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="人生中不可不想的事">
-<meta name="twitter:description" content="得到充分的知识和经验是一项伟大的艺术，也就是试着去了解生命的丰富、存在的美、挣扎、悲哀、欢笑、泪水，同时让你的心智保持单纯，只有当你的心智单纯时，你才能了解如何去爱。
-
-很少人知道如何生活，大部分的人只是苟且偷生，因此生活才变成一件可怕的事，真正的生活需要极大的爱，需要对寂静有很深的感受，需要有丰富的经验，却又保有赤子之心。它需要能够清楚思考的心智，不被偏见、迷信、期望或恐惧所捆绑。">
+<meta name="twitter:title" content="Android的消息机制">
+<meta name="twitter:description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
 
   
     <link rel="alternative" href="/atom.xml" title="Daniel_Wen&#39;s blog" type="application/atom+xml">
@@ -169,11 +163,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-人生中不可不想的事" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android的消息机制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/26/人生中不可不想的事/" class="article-date">
-  	<time datetime="2015-08-26T14:01:02.000Z" itemprop="datePublished">8月 26 2015</time>
+      <a href="/2015/12/19/Android的消息机制/" class="article-date">
+  	<time datetime="2015-12-19T13:26:04.000Z" itemprop="datePublished">12月 19 2015</time>
 </a>
     </div>
   
@@ -186,7 +180,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      人生中不可不想的事
+      Android的消息机制
     </h1>
   
 
@@ -194,9 +188,13 @@
       
       <div class="article-info article-info-post">
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler/">Handler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
         
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	<a class="article-category-link" href="/categories/学习/">学习</a>
 	</div>
 
 
@@ -206,30 +204,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>得到充分的知识和经验是一项伟大的艺术，也就是试着去了解生命的丰富、存在的美、挣扎、悲哀、欢笑、泪水，同时让你的心智保持单纯，只有当你的心智单纯时，你才能了解如何去爱。</p>
+        <p>有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。<a id="more"></a></p>
 <hr>
-<p>很少人知道如何生活，大部分的人只是苟且偷生，因此生活才变成一件可怕的事，真正的生活需要极大的爱，需要对寂静有很深的感受，需要有丰富的经验，却又保有赤子之心。它需要能够清楚思考的心智，不被偏见、迷信、期望或恐惧所捆绑。<a id="more"></a></p>
+<h2 id="Handler运行机制">Handler运行机制</h2>
+<p>Handler的运行需要底层的MessageQueue和Looper为支撑。它主要工作包含消息的发送和接收</p>
+<p>MessageQueue:消息队列，他是采用单链表的数据结构来存储一组消息，以队列的形式对外提供插入和删除的工作</p>
+<p>Looper:消息循环，它以无限循环的形式去查找是否有新消息，如果有的话就处理，否则就一直等待。Looper的创建会获得当前线程的实例(Thread.currentThread())，从而实现了looper和线程的关联(底层实现是将looper作为threadlocal的value,然后将threadlocal的value负值给currentThread的value)。通过myLooper()得到threadlocal中的looper，也就是所在线程的looper，进行消息分发。</p>
 <hr>
-<p>只有令人乏味的人，才会一直费力去做一些事情，他的思想是经过非常小心的安排，他选择自己说话及思想的先后顺序。这种人可能是非常整洁的、清楚的，他也可能善用正确的词汇，非常的小心体贴，但是他却失去了生活里富有创意的快乐。</p>
-<hr>
-<p>你必须要有热情和愤怒的感受，你要观察它、玩味它，弄清楚其中的真相。如果你只是压抑它，如果你对自己说“我一定不要生气，一定不要感觉热情，因为这是错的”，长久下去，你会发现自己的思想被固定在某种观念中，你会变得非常肤浅。你可能非常聪明，具有百科全书般的知识，但是如果你没有强烈的、深刻的感受力，你的理解力就像是一朵没有香味的花朵。</p>
-<hr>
-<p>我们从来不说“我要把全心全意和整个人都投注下去，去发现什么是快乐”，因为我们并不是非常认真，我们的感受并不是非常强烈，所有小事情就能使你感激、满意了。快乐不是你能去寻找的东西，它是一种结局、一种副产品。如果你为快乐而追求快乐，就是没有意义的。快乐是不请自来的。</p>
-<hr>
-<p>只有在你能放下时，你才不再有被强迫的感觉，不再有不能成为什么的恐惧，不能获得什么的恐惧以及不能达到目的的恐惧。</p>
-<hr>
-<p>我们都对别人有意见，我们说“他是好的”、“他是虚荣的”、“他是迷信的”、“他做这事或那事”，在我们与别人之间永远有意见的屏障，所以我们永远看不到别人的真相。在特定时日的事件去判断一个人往往是不正确的，因为人会改变。所以重要的是，你要永远以清新的心去结识别人，而不是用你的偏见、你固定的想法和先入为主的观念。</p>
-<hr>
-<p>对待一件人或事，每个人都有自己的意见，关心别人看待人或事的意见是愚笨的思考方式，重要的是如实看见真相而不加意见、不加判断、不去比较。</p>
-<hr>
-<p>当你对一件东西有所期望，如果这份期望不满足，你就失望了，这意味着：在内心里，在心理上，你是依赖那个人的。因此每当心理上的依赖产生时，一定也存在沮丧，从沮丧不可避免的会衍生愤怒、悲痛、嫉妒及各种形式的冲突。</p>
-<hr>
-<p>我们为什么要对伤害我们的人施予同样的报复？这是出于本能的自保，不是吗？然而一个有智慧的心，一个警醒的心，它已经透视这整件事，因此就不会产生报复的欲望。这不是因为它想培养美德和容人之量，而是因为它发现报复是愚蠢的，一点意义也没有，但是要做到这一点，必须经过觉察自信的训练。</p>
-<hr>
-<p>心就像沃土，如果你给予足够的时间，任何问题来到其上，就会像野草一样生根，然后你就得费心去把它拔掉，可是如果你不给问题足够的时间生根，他就没有地方生长而自动枯萎了。如果你鼓励恨，给它时间生根、滋长、成熟，他就会变成一个大问题。如果每一次恨的感觉生起时，你让它过去，你会发现自己的心思变得非常敏感，但不是多愁善感，如此你就会明白什么是爱。人的心念会追求感官刺激和欲望，但是它不能追逐爱，爱必须自己来到心中。爱一旦存在，它就没有感官的或神圣的分别了，它就是爱。这就是爱不平凡的地方，它是唯一能完全领会整个存在的品质。</p>
-<hr>
-<p>人心制造问题，然后心就变成问题生根的土壤，当问题在心中成形后，它就变得难以根除。重要的是，我们要让心自己去察觉问题，而不提供滋长问题的土壤。</p>
+<h2 id="Handler工作过程">Handler工作过程</h2>
+<p>首先创建Handler，这时其内部的Looper和MessageQueue就可以和它一起协同工作了，然后通过Handler的post方法将一个Runnable投递到Handler内部的Looper中去处理，也可以通过Handler的send方法发送一个消息(其实post方法最终也是通过send方法来完成的),随之调用MessageQueue的enqueueMessage方法将消息放入消息队列中，然后Looper发现有新消息到来时，就会处理这个消息。在Looper.loop方法中，通过messageQueue.next方法来获取消息，如果next方法返回了新消息，Looper就会通过调用message.target.dispatchMessage(msg)将消息交给Handler的handler()方法处理。</p>
+<h2 id="Handler使用实例:一个倒计时的例子">Handler使用实例:一个倒计时的例子</h2>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TIME_COUNT_DOWN = <span class="number">1</span>;
 
+    <span class="keyword">private</span> Button mCountDownBtn;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> mCount = <span class="number">60</span>;
+    <span class="keyword">private</span> Handler mHandler;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mHandler = <span class="keyword">new</span> Handler(){
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span>(Message msg) {
+                <span class="keyword">super</span>.handleMessage(msg);
+                <span class="keyword">switch</span> (msg.what){
+                    <span class="keyword">case</span> TIME_COUNT_DOWN:
+                        mCount --;
+                        mCountDownBtn.setText(mCount + <span class="string">"秒"</span>);
+                        <span class="keyword">if</span>(mCount &gt; <span class="number">0</span>){
+                            mHandler.sendEmptyMessage(TIME_COUNT_DOWN);
+                            <span class="keyword">try</span>{
+                                Thread.sleep(<span class="number">1000</span>);
+                            } <span class="keyword">catch</span> (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        <span class="keyword">break</span>;
+                    <span class="keyword">default</span>:
+                        <span class="keyword">break</span>;
+                }
+            }
+        };
+
+        mCountDownBtn = (Button) findViewById(R.id.count_down_btn);
+        mCountDownBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {
+                mCount = <span class="number">60</span>;
+                mHandler.sendEmptyMessage(TIME_COUNT_DOWN);
+            }
+        });
+    }
+}
+</code></pre>
       
     </div>
     
@@ -238,18 +269,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/08/30/Android开发之拍照或从图库获取照片/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Android开发之拍照或从图库获取照片
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/08/22/Android基础之Activity启动模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android基础之Activity启动模式</div>
+    <a href="/2015/12/06/Android自定义View-使用Scroller实现View的滑动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android自定义View:使用Scroller实现View的滑动</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -278,7 +300,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="人生中不可不想的事" data-title="人生中不可不想的事" data-url="http://belief1992.com/2015/08/26/人生中不可不想的事/"></div>
+	<div class="ds-thread" data-thread-key="Android的消息机制" data-title="Android的消息机制" data-url="http://belief1992.com/2015/12/19/Android的消息机制/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
