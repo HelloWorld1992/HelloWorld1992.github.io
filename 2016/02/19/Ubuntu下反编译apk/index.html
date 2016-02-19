@@ -3,17 +3,35 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android的消息机制 | Daniel_Wen&#39;s blog</title>
+  <title>Ubuntu下反编译apk | Daniel_Wen&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
+  <meta name="description" content="工具下载
+
+apktool：这个工具用于最大幅度地还原APK文件中的9-patch图片、布局、字符串等等一系列的资源。下载地址：http://ibotpeaches.github.io/Apktool/install/
+
+下载最新版本，例如我下载的是apktool_2.0.3.jar，下载后重命名为apktool.jar
+
+dex2jar：这个工具用于将dex文件转换为jar文件下载地址：http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android的消息机制">
-<meta property="og:url" content="http://belief1992.com/2015/12/19/Android的消息机制/">
+<meta property="og:title" content="Ubuntu下反编译apk">
+<meta property="og:url" content="http://belief1992.com/2016/02/19/Ubuntu下反编译apk/">
 <meta property="og:site_name" content="Daniel_Wen's blog">
-<meta property="og:description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
+<meta property="og:description" content="工具下载
+
+apktool：这个工具用于最大幅度地还原APK文件中的9-patch图片、布局、字符串等等一系列的资源。下载地址：http://ibotpeaches.github.io/Apktool/install/
+
+下载最新版本，例如我下载的是apktool_2.0.3.jar，下载后重命名为apktool.jar
+
+dex2jar：这个工具用于将dex文件转换为jar文件下载地址：http">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android的消息机制">
-<meta name="twitter:description" content="有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。">
+<meta name="twitter:title" content="Ubuntu下反编译apk">
+<meta name="twitter:description" content="工具下载
+
+apktool：这个工具用于最大幅度地还原APK文件中的9-patch图片、布局、字符串等等一系列的资源。下载地址：http://ibotpeaches.github.io/Apktool/install/
+
+下载最新版本，例如我下载的是apktool_2.0.3.jar，下载后重命名为apktool.jar
+
+dex2jar：这个工具用于将dex文件转换为jar文件下载地址：http">
 
   
     <link rel="alternative" href="/atom.xml" title="Daniel_Wen&#39;s blog" type="application/atom+xml">
@@ -163,11 +181,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Android的消息机制" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Ubuntu下反编译apk" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/12/19/Android的消息机制/" class="article-date">
-  	<time datetime="2015-12-19T13:26:04.000Z" itemprop="datePublished">12月 19 2015</time>
+      <a href="/2016/02/19/Ubuntu下反编译apk/" class="article-date">
+  	<time datetime="2016-02-19T13:21:37.000Z" itemprop="datePublished">2月 19 2016</time>
 </a>
     </div>
   
@@ -180,7 +198,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android的消息机制
+      Ubuntu下反编译apk
     </h1>
   
 
@@ -189,7 +207,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler/">Handler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 	</div>
 
         
@@ -204,63 +222,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。<a id="more"></a></p>
-<hr>
-<h2 id="Handler运行机制">Handler运行机制</h2>
-<p>Handler的运行需要底层的MessageQueue和Looper为支撑。它主要工作包含消息的发送和接收</p>
-<p>MessageQueue:消息队列，他是采用单链表的数据结构来存储一组消息，以队列的形式对外提供插入和删除的工作</p>
-<p>Looper:消息循环，它以无限循环的形式去查找是否有新消息，如果有的话就处理，否则就一直等待。Looper的创建会获得当前线程的实例(Thread.currentThread())，从而实现了looper和线程的关联(底层实现是将looper作为threadlocal的value,然后将threadlocal的value负值给currentThread的value)。通过myLooper()得到threadlocal中的looper，也就是所在线程的looper，进行消息分发。</p>
-<hr>
-<h2 id="Handler工作过程">Handler工作过程</h2>
-<p>首先创建Handler，这时其内部的Looper和MessageQueue就可以和它一起协同工作了，然后通过Handler的post方法将一个Runnable投递到Handler内部的Looper中去处理，也可以通过Handler的send方法发送一个消息(其实post方法最终也是通过send方法来完成的),随之调用MessageQueue的enqueueMessage方法将消息放入消息队列中，然后Looper发现有新消息到来时，就会处理这个消息。在Looper.loop方法中，通过messageQueue.next方法来获取消息，如果next方法返回了新消息，Looper就会通过调用message.target.dispatchMessage(msg)将消息交给Handler的handler()方法处理。</p>
-<h2 id="Handler使用实例:一个倒计时的例子">Handler使用实例:一个倒计时的例子</h2>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TIME_COUNT_DOWN = <span class="number">1</span>;
+        <h2 id="工具下载">工具下载</h2>
+<ol>
+<li>apktool：这个工具用于最大幅度地还原APK文件中的9-patch图片、布局、字符串等等一系列的资源。<br>下载地址：<a href="http://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="external">http://ibotpeaches.github.io/Apktool/install/</a></li>
+</ol>
+<p>下载最新版本，例如我下载的是apktool_2.0.3.jar，下载后重命名为apktool.jar</p>
+<ol>
+<li>dex2jar：这个工具用于将dex文件转换为jar文件<br>下载地址：<a href="http://sourceforge.net/projects/dex2jar/files/" target="_blank" rel="external">http://sourceforge.net/projects/dex2jar/files/</a></li>
+</ol>
+<ol>
+<li>jd-gui：这个工具用于将jar文件转换为java代码<br>下载地址：<a href="http://jd.benow.ca/" target="_blank" rel="external">http://jd.benow.ca/</a></li>
+</ol>
+<h2 id="反编译代码">反编译代码</h2>
+<p>1.反编译资源文件<br>首先准备一个apk文件，例如demo.apk，然后重命名为demo.zip，然后解压，你会发现有资源文件，但是这些资源文件都是在打包<br>的时候被编译过了，所以直接打开的话是看不到明文的。要想将apk文件中的资源反编译出来，需要用到apktool工具。<br>将之前下载的apktool.jar文件和apk文件放在同一目录，然后执行命令：<br>    java -jar apktool.jar d demo.apk</p>
+<p>其中d是decode的意思，表示我们要对Demo.apk这个文件进行解码。那除了这个基本用法之外，我们还可以再加上一些附加参数来控制decode的更多行为：</p>
+<blockquote>
+<p>-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。<br>-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。<br>-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。<br>-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。</p>
+</blockquote>
+<p>运行成功后会在目录下生成一个文件夹，里面就是反编译apk后的资源文件。</p>
+<p>2.反编译代码<br>首先，先解压下载好的dex2jar，解压后我们需要用到d2j-dex2jar.sh这个文件，将demo.zip解压，里面有个classes.dex文件，这个classes.dex文件就是存放所有java代码的地方了。将它拷贝到dex2jar解压后的目录下，并执行命令：<br>    d2j-dex2jar.sh classes.dex</p>
+<p>如果命令报错：d2j-dex2jar.sh: command not found<br>那么执行命令：<br>    sh d2j-dex2jar.sh /apk/classes.dex<br>如果命令报错：./d2j_invoke.sh: Permission denied<br>那么再执行：<br>    sudo chmod +x ./d2j_invoke.sh<br>然后再执行：<br>    sh d2j-dex2jar.sh classes.dex</p>
+<p>执行成功后会发现生成了一个classes-dex2jar.jar文件，这个文件就是java代码的jar文件。<br>最后，通过jd-gui工具打开这个jar文件，就可以阅读转换出来的java代码啦。</p>
 
-    <span class="keyword">private</span> Button mCountDownBtn;
-
-    <span class="keyword">private</span> <span class="keyword">int</span> mCount = <span class="number">60</span>;
-    <span class="keyword">private</span> Handler mHandler;
-
-    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {
-        <span class="keyword">super</span>.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mHandler = <span class="keyword">new</span> Handler(){
-            <span class="annotation">@Override</span>
-            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span>(Message msg) {
-                <span class="keyword">super</span>.handleMessage(msg);
-                <span class="keyword">switch</span> (msg.what){
-                    <span class="keyword">case</span> TIME_COUNT_DOWN:
-                        mCount --;
-                        mCountDownBtn.setText(mCount + <span class="string">"秒"</span>);
-                        <span class="keyword">if</span>(mCount &gt; <span class="number">0</span>){
-                            mHandler.sendEmptyMessage(TIME_COUNT_DOWN);
-                            <span class="keyword">try</span>{
-                                Thread.sleep(<span class="number">1000</span>);
-                            } <span class="keyword">catch</span> (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        <span class="keyword">break</span>;
-                    <span class="keyword">default</span>:
-                        <span class="keyword">break</span>;
-                }
-            }
-        };
-
-        mCountDownBtn = (Button) findViewById(R.id.count_down_btn);
-        mCountDownBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {
-            <span class="annotation">@Override</span>
-            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {
-                mCount = <span class="number">60</span>;
-                mHandler.sendEmptyMessage(TIME_COUNT_DOWN);
-            }
-        });
-    }
-}
-</code></pre>
       
     </div>
     
@@ -269,18 +252,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/12/20/《从0到1》-读书笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          《从0到1》--读书笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/12/06/Android自定义View-使用Scroller实现View的滑动/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android自定义View:使用Scroller实现View的滑动</div>
+    <a href="/2015/12/20/《从0到1》-读书笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《从0到1》--读书笔记</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -309,7 +283,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Android的消息机制" data-title="Android的消息机制" data-url="http://belief1992.com/2015/12/19/Android的消息机制/"></div>
+	<div class="ds-thread" data-thread-key="Ubuntu下反编译apk" data-title="Ubuntu下反编译apk" data-url="http://belief1992.com/2016/02/19/Ubuntu下反编译apk/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
