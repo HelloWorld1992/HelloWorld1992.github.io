@@ -203,14 +203,23 @@
 <li>jd-gui：这个工具用于将jar文件转换为java代码<br>下载地址：<a href="http://jd.benow.ca/" target="_blank" rel="external">http://jd.benow.ca/</a></li>
 </ol>
 <h2 id="反编译代码">反编译代码</h2>
-<p>1.反编译资源文件<br>首先准备一个apk文件，例如demo.apk，然后重命名为demo.zip，然后解压，你会发现有资源文件，但是这些资源文件都是在打包<br>的时候被编译过了，所以直接打开的话是看不到明文的。要想将apk文件中的资源反编译出来，需要用到apktool工具。<br>将之前下载的apktool.jar文件和apk文件放在同一目录，然后执行命令：<br>    java -jar apktool.jar d demo.apk</p>
+<p>1.反编译资源文件<br>首先准备一个apk文件，例如demo.apk，然后重命名为demo.zip，然后解压，你会发现有资源文件，但是这些资源文件都是在打包的时候被编译过了，所以直接打开的话是看不到明文的。要想将apk文件中的资源反编译出来，需要用到apktool工具。<br>将之前下载的apktool.jar文件和apk文件放在同一目录，然后执行命令：</p>
+<blockquote>
+<p>java -jar apktool.jar d demo.apk</p>
+</blockquote>
 <p>其中d是decode的意思，表示我们要对Demo.apk这个文件进行解码。那除了这个基本用法之外，我们还可以再加上一些附加参数来控制decode的更多行为：</p>
 <blockquote>
 <p>-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。<br>-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。<br>-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。<br>-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。</p>
 </blockquote>
 <p>运行成功后会在目录下生成一个文件夹，里面就是反编译apk后的资源文件。</p>
-<p>2.反编译代码<br>首先，先解压下载好的dex2jar，解压后我们需要用到d2j-dex2jar.sh这个文件，将demo.zip解压，里面有个classes.dex文件，这个classes.dex文件就是存放所有java代码的地方了。将它拷贝到dex2jar解压后的目录下，并执行命令：<br>    d2j-dex2jar.sh classes.dex</p>
-<p>如果命令报错：d2j-dex2jar.sh: command not found<br>那么执行命令：<br>    sh d2j-dex2jar.sh /apk/classes.dex<br>如果命令报错：./d2j_invoke.sh: Permission denied<br>那么再执行：<br>    sudo chmod +x ./d2j_invoke.sh<br>然后再执行：<br>    sh d2j-dex2jar.sh classes.dex</p>
+<p>2.反编译代码<br>首先，先解压下载好的dex2jar，解压后我们需要用到d2j-dex2jar.sh这个文件，将demo.zip解压，里面有个classes.dex文件，这个classes.dex文件就是存放所有java代码的地方了。将它拷贝到dex2jar解压后的目录下，并执行命令：</p>
+<blockquote>
+<p>d2j-dex2jar.sh classes.dex</p>
+</blockquote>
+<p>如果命令报错：d2j-dex2jar.sh: command not found<br>那么执行命令：</p>
+<blockquote>
+<p>sh d2j-dex2jar.sh /apk/classes.dex<br>如果命令报错：./d2j_invoke.sh: Permission denied<br>那么再执行：<br>sudo chmod +x ./d2j_invoke.sh<br>然后再执行：<br>sh d2j-dex2jar.sh classes.dex</p>
+</blockquote>
 <p>执行成功后会发现生成了一个classes-dex2jar.jar文件，这个文件就是java代码的jar文件。<br>最后，通过jd-gui工具打开这个jar文件，就可以阅读转换出来的java代码啦。</p>
 
       
