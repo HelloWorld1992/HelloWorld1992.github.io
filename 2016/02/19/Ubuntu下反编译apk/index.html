@@ -247,9 +247,25 @@ dex2jar：这个工具用于将dex文件转换为jar文件下载地址：http">
 <blockquote>
 <p>d2j-dex2jar.sh classes.dex</p>
 </blockquote>
-<p>如果命令报错：d2j-dex2jar.sh: command not found<br>那么执行命令：</p>
+<p>如果命令报错：</p>
 <blockquote>
-<p>sh d2j-dex2jar.sh /apk/classes.dex<br>如果命令报错：./d2j_invoke.sh: Permission denied<br>那么再执行：<br>sudo chmod +x ./d2j_invoke.sh<br>然后再执行：<br>sh d2j-dex2jar.sh classes.dex</p>
+<p>d2j-dex2jar.sh: command not found</p>
+</blockquote>
+<p>那么执行命令：</p>
+<blockquote>
+<p>sh d2j-dex2jar.sh /apk/classes.dex</p>
+</blockquote>
+<p>如果命令报错：</p>
+<blockquote>
+<p>./d2j_invoke.sh: Permission denied</p>
+</blockquote>
+<p>那么再执行：</p>
+<blockquote>
+<p>sudo chmod +x ./d2j_invoke.sh</p>
+</blockquote>
+<p>然后再执行：</p>
+<blockquote>
+<p>sh d2j-dex2jar.sh classes.dex</p>
 </blockquote>
 <p>执行成功后会发现生成了一个classes-dex2jar.jar文件，这个文件就是java代码的jar文件。<br>最后，通过jd-gui工具打开这个jar文件，就可以阅读转换出来的java代码啦。</p>
 
