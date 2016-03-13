@@ -105,7 +105,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Handler/" style="font-size: 12.50px;">Handler</a><a href="/tags/Hexo/" style="font-size: 12.50px;">Hexo</a><a href="/tags/IO/" style="font-size: 12.50px;">IO</a><a href="/tags/View/" style="font-size: 17.50px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/java/" style="font-size: 12.50px;">java</a><a href="/tags/心理学/" style="font-size: 12.50px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 12.50px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a><a href="/tags/职场/" style="font-size: 12.50px;">职场</a>
+						<a href="/tags/Github/" style="font-size: 12.50px;">Github</a><a href="/tags/Handler/" style="font-size: 12.50px;">Handler</a><a href="/tags/Hexo/" style="font-size: 12.50px;">Hexo</a><a href="/tags/IO/" style="font-size: 12.50px;">IO</a><a href="/tags/View/" style="font-size: 17.50px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/java/" style="font-size: 12.50px;">java</a><a href="/tags/心理学/" style="font-size: 12.50px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 12.50px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a><a href="/tags/职场/" style="font-size: 12.50px;">职场</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,91 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-上传本地代码到github" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/13/上传本地代码到github/" class="article-date">
+  	<time datetime="2016-03-13T15:55:58.000Z" itemprop="datePublished">3月 13 2016</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/13/上传本地代码到github/">上传本地代码到github</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1，登录github（没有github账户先注册），然后点击“create a new repository”</p>
+<p>2，打开Gitbash（没有gitbash的可以先安装msysgit）</p>
+<p>3，第一次使用先配置用户名和邮箱，进入gitbash,然后使用如下命令：</p>
+<blockquote>
+<p>$ git config —global user.name “你的github账户名”<br>$ git config —global user.email “你的github账户邮箱”</p>
+</blockquote>
+<p>4，创建ssh key：在gitbash中执行命令：</p>
+<blockquote>
+<p>$ ssh-keygen -t rsa -C “你的github账户邮箱”</p>
+</blockquote>
+<p>回车后会要求确认路径和输入密码，我们这使用默认的一路回车就行。成功的话会在~/下生.ssh文件夹，进去，打开id_rsa.pub，复制里面的key。回到github，进入Account Settings，左边选择SSH Keys，Add SSH Key,title随便填，粘贴key。</p>
+<p>5，创建本地仓库以及添加远程地址：使用gitbash命令进入一个文件夹，然后执行命令：</p>
+<blockquote>
+<p>$ git init</p>
+</blockquote>
+<p>这样，本地仓库就初始化好了，然后可以执行add命令和commit命令来添加文件，如：</p>
+<blockquote>
+<p>$ git add README.md<br>$ git commit -m “first commit”</p>
+</blockquote>
+<p>这样，就将README.md文件添加到本地仓库了。然后执行如下命令添加远程地址：</p>
+<blockquote>
+<p>$ git remote add origin git@github.com:你的github用户名/你在github上新建的仓库名.git  或者<br>$git remote add origin <a href="https://github.com/github用户名/仓库名.git" target="_blank" rel="external">https://github.com/github用户名/仓库名.git</a></p>
+</blockquote>
+<p>6，将本地仓库推送到github上，执行命令：</p>
+<blockquote>
+<p>$ git push -u origin master</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-Android-RecycleView的使用" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -753,68 +838,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/11/22/系统Toast在部分机型不显示的解决方案/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android屏幕适配-简单而优雅的适配方案" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/11/21/Android屏幕适配-简单而优雅的适配方案/" class="article-date">
-  	<time datetime="2015-11-21T07:38:08.000Z" itemprop="datePublished">11月 21 2015</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/21/Android屏幕适配-简单而优雅的适配方案/">Android屏幕适配:简单而优雅的适配方案</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>做Android开发，为了让开发出的应用能够美观的显示在不同尺寸、分辨率的设备上，免不了要做屏幕适配。首先，了解下一些最基本的相关概念。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/学习/">学习</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/11/21/Android屏幕适配-简单而优雅的适配方案/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

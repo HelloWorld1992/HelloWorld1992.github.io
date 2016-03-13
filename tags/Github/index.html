@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/12 | Daniel_Wen&#39;s blog</title>
+  <title>Tag: Github | Daniel_Wen&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="学习总结 思考感悟 知识管理">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Daniel_Wen's blog">
-<meta property="og:url" content="http://belief1992.com/archives/2015/12/">
+<meta property="og:url" content="http://belief1992.com/tags/Github/">
 <meta property="og:site_name" content="Daniel_Wen's blog">
 <meta property="og:description" content="学习总结 思考感悟 知识管理">
 <meta name="twitter:card" content="summary">
@@ -165,11 +165,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-《从0到1》-读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-上传本地代码到github" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/12/20/《从0到1》-读书笔记/" class="article-date">
-  	<time datetime="2015-12-20T12:38:26.000Z" itemprop="datePublished">12月 20 2015</time>
+      <a href="/2016/03/13/上传本地代码到github/" class="article-date">
+  	<time datetime="2016-03-13T15:55:58.000Z" itemprop="datePublished">3月 13 2016</time>
 </a>
     </div>
   
@@ -182,7 +182,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/20/《从0到1》-读书笔记/">《从0到1》--读书笔记</a>
+      <a class="article-title" href="/2016/03/13/上传本地代码到github/">上传本地代码到github</a>
     </h1>
   
 
@@ -191,68 +191,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1，竞争是一种观念—这种观念在整个社会中蔓延，扭曲了我们的思想。我们宣扬竞争，内化竞争的必要性，颁布竞争的条律；结果就是，尽管竞争越来越激烈，我们实际获得的却越来越少，我们把自己困在了竞争中。这是一个简单的事实，但是我们都学会了对它视而不见，往往忽视了真正重要的事情，只把精力放在竞争对手上。</p>
-<p>2，如果你不能把对手打败，那就和对手联合。</p>
-<p>3，每个人都会为重要的事进行斗争；而真正的英雄把他们个人的荣誉看的更重要，即使事情不重要，他们也会一争到底。这个扭曲的逻辑是人的天性，但是用在商业上却很致命。如果你能看出竞争不能带来价值的提升，而是充满破坏力，那你就比大多数人要理智。</p>
-<p>4，如果你把短期增长看成重中之重，就会错过最重要的问题：10年之后，你的公司还能存在吗？仅凭数字不能告诉你答案：你必须认真思考公司的本质特征。</p>
-<p>5，企业家往往低估了循序渐进发展市场的意义，其实市场需要有纪律的逐步扩大。最成功的公司会先在一个特定的利基市场里占据主导，然后扩展到相近市场，它们的创业故事类似，都是由核心事业逐渐向外扩展。</p>
-<p>6，你可能期望未来清晰可见，你也可能只把未来视作一团迷雾。如果你认为自己的未来是明确的，那么提前了解未来，并且努力打造未来就是有意义的。但如果你脑海里的未来只是一团迷雾，无法预测，那你就会萌生出放弃掌控它的念头。有些人认为未来比现在更好，有些人认为未来比现在更糟。乐观的人迎接未来，悲观的人害怕未来。</p>
-<p>7，一个明确的愿景可以坚定人的信念。与其努力成为一个各方面都一知半解的庸才，还美其名曰“全能人才”，一个目标明确的人往往会选择一件最该做的事，并专心去做好这一件事。与其不知疲倦的工作，最终却只把自己变得毫无特色，不如努力培养实力，以求独霸一方。</p>
+        <p>1，登录github（没有github账户先注册），然后点击“create a new repository”</p>
+<p>2，打开Gitbash（没有gitbash的可以先安装msysgit）</p>
+<p>3，第一次使用先配置用户名和邮箱，进入gitbash,然后使用如下命令：</p>
+<blockquote>
+<p>$ git config —global user.name “你的github账户名”<br>$ git config —global user.email “你的github账户邮箱”</p>
+</blockquote>
+<p>4，创建ssh key：在gitbash中执行命令：</p>
+<blockquote>
+<p>$ ssh-keygen -t rsa -C “你的github账户邮箱”</p>
+</blockquote>
+<p>回车后会要求确认路径和输入密码，我们这使用默认的一路回车就行。成功的话会在~/下生.ssh文件夹，进去，打开id_rsa.pub，复制里面的key。回到github，进入Account Settings，左边选择SSH Keys，Add SSH Key,title随便填，粘贴key。</p>
+<p>5，创建本地仓库以及添加远程地址：使用gitbash命令进入一个文件夹，然后执行命令：</p>
+<blockquote>
+<p>$ git init</p>
+</blockquote>
+<p>这样，本地仓库就初始化好了，然后可以执行add命令和commit命令来添加文件，如：</p>
+<blockquote>
+<p>$ git add README.md<br>$ git commit -m “first commit”</p>
+</blockquote>
+<p>这样，就将README.md文件添加到本地仓库了。然后执行如下命令添加远程地址：</p>
+<blockquote>
+<p>$ git remote add origin git@github.com:你的github用户名/你在github上新建的仓库名.git  或者<br>$git remote add origin <a href="https://github.com/github用户名/仓库名.git" target="_blank" rel="external">https://github.com/github用户名/仓库名.git</a></p>
+</blockquote>
+<p>6，将本地仓库推送到github上，执行命令：</p>
+<blockquote>
+<p>$ git push -u origin master</p>
+</blockquote>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android的消息机制" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/19/Android的消息机制/" class="article-date">
-  	<time datetime="2015-12-19T13:26:04.000Z" itemprop="datePublished">12月 19 2015</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/19/Android的消息机制/">Android的消息机制</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有时候需要在子线程中进行耗时的操作，例如读取文件或者访问网络等，当耗时操作完成后可能需要更新UI，但是Android规定访问UI只能在主线程中进行，否则会触发异常，这个时候我们通过Handler将更新UI的操作切换到主线程中执行。
       
     </div>
     
@@ -260,7 +226,7 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handler/">Handler</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li></ul>
 	</div>
 
       
@@ -269,72 +235,6 @@
 	</div>
 
 
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/19/Android的消息机制/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android自定义View-使用Scroller实现View的滑动" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/06/Android自定义View-使用Scroller实现View的滑动/" class="article-date">
-  	<time datetime="2015-12-06T14:45:48.000Z" itemprop="datePublished">12月 6 2015</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/06/Android自定义View-使用Scroller实现View的滑动/">Android自定义View:使用Scroller实现View的滑动</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为了让View实现滑动，我们常用View的scrollTo()和scrollBy()方法（scrollBy()实际上调用了scrollTo()）。<br>这两个方法涉及到View的mScrollX和mSrollY两个属性。这两个属性分别通过View的getScrollX()和getScrollY()得到。在滑动的过程中，mScrollX的值总是等于View左边缘和View内容左边缘在水平方向的距离，而mScrollY的值总是等于View的上边缘和View内容上边缘在竖直方向的距离。使用scrollTo和scrollBy来实现滑动，只能将View的内容进行移动，并不能将View本身进行移动。由此可以推出：如果从左向右滑动，那么mScrollX为负值，反之为正值；如果从上往下滑动，那么mScrollY为负值，反之为正值。使用scrollTo方法来实现滑动，由于速度快，导致让人感觉非常生硬。View为我们提供了Scroller来实现弹性滑动。
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/View/">View</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/学习/">学习</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/06/Android自定义View-使用Scroller实现View的滑动/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -377,8 +277,8 @@
 		animate: true,
 		isHome: false,
 		isPost: false,
-		isArchive: true,
-		isTag: false,
+		isArchive: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false
 	}
