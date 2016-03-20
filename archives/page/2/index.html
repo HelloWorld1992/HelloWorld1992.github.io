@@ -105,7 +105,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Github/" style="font-size: 12.50px;">Github</a><a href="/tags/Handler/" style="font-size: 12.50px;">Handler</a><a href="/tags/Hexo/" style="font-size: 12.50px;">Hexo</a><a href="/tags/IO/" style="font-size: 12.50px;">IO</a><a href="/tags/View/" style="font-size: 17.50px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/java/" style="font-size: 12.50px;">java</a><a href="/tags/心理学/" style="font-size: 12.50px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 12.50px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a><a href="/tags/职场/" style="font-size: 12.50px;">职场</a>
+						<a href="/tags/Github/" style="font-size: 12.50px;">Github</a><a href="/tags/Handler/" style="font-size: 12.50px;">Handler</a><a href="/tags/Hexo/" style="font-size: 12.50px;">Hexo</a><a href="/tags/IO/" style="font-size: 12.50px;">IO</a><a href="/tags/View/" style="font-size: 17.50px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/java/" style="font-size: 12.50px;">java</a><a href="/tags/开源/" style="font-size: 12.50px;">开源</a><a href="/tags/心理学/" style="font-size: 12.50px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 12.50px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a><a href="/tags/职场/" style="font-size: 12.50px;">职场</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,68 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-系统Toast在部分机型不显示的解决方案" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/22/系统Toast在部分机型不显示的解决方案/" class="article-date">
+  	<time datetime="2015-11-22T03:08:22.000Z" itemprop="datePublished">11月 22 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/22/系统Toast在部分机型不显示的解决方案/">系统Toast在部分机型不显示的解决方案</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近遇到一个关于Toast的问题，用户反馈说输入用户名或密码错误后，连个提示都没有。但是在代码中我们确实使用了Toast来反馈信息啊。后来发现是用户把通知栏消息权限关掉了，导致Toast不显示。目前发现有魅族手机以及部分华为手机，当把通知栏消息权限关掉后是不会显示Toast的。后来看了下Toast的源码，实现挺简单的，就是在Window上加了个View，然后使用NotificationManager来管理显示。为了解决用户反馈的问题，于是仿造系统Toast自定义了一个Toast，只不过不使用NotifacationManager。具体实现如下:
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/11/22/系统Toast在部分机型不显示的解决方案/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-Android屏幕适配-简单而优雅的适配方案" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -707,64 +769,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/08/10/Android中View的学习：View的绘制流程/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-《暗时间》-读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/28/《暗时间》-读书笔记/" class="article-date">
-  	<time datetime="2015-07-28T15:42:11.000Z" itemprop="datePublished">7月 28 2015</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/28/《暗时间》-读书笔记/">《暗时间》-- 读书笔记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>　　应该是在大四下学期才偶然看到刘未鹏写的博客（<a href="http://mindhacks.cn/2009/01/18/escape-from-your-shawshank-part1/），" target="_blank" rel="external">http://mindhacks.cn/2009/01/18/escape-from-your-shawshank-part1/），</a><br>当时看的是他写的一个系列叫“逃出你的肖申克”，很可惜当时并没有好好的吸收消化他写的内容，前几天突然想起他写的书《暗时间》，于是利用工作外的时间拜读了一遍。作者是个方法论、技术、心理学理论的高手（至少我读完后这么觉得），主要注重读者认知层的改变，你能被文章中表现出来高效的思维方式和独到观点所吸引，非常建议大家有空看看这本书。
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/07/28/《暗时间》-读书笔记/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

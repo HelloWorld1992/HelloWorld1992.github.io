@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OkHttP的简单封装 | Daniel_Wen&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近项目要求把网络访问那一块改为使用OkHttp，于是就把Okhttp的基本使用封装了一下。关于okttp的异步请求、缓存以及拦截器等其他功能用法后续补充。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OkHttP的简单封装">
+<meta property="og:url" content="http://belief1992.com/2016/03/20/OkHttP的简单封装/">
+<meta property="og:site_name" content="Daniel_Wen's blog">
+<meta property="og:description" content="最近项目要求把网络访问那一块改为使用OkHttp，于是就把Okhttp的基本使用封装了一下。关于okttp的异步请求、缓存以及拦截器等其他功能用法后续补充。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OkHttP的简单封装">
+<meta name="twitter:description" content="最近项目要求把网络访问那一块改为使用OkHttp，于是就把Okhttp的基本使用封装了一下。关于okttp的异步请求、缓存以及拦截器等其他功能用法后续补充。">
+
+  
+    <link rel="alternative" href="/atom.xml" title="Daniel_Wen&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/favicon.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Daniel_Wen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Whatever is worth doing is worth doing well.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/categories/随笔">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Github/" style="font-size: 12.50px;">Github</a><a href="/tags/Handler/" style="font-size: 12.50px;">Handler</a><a href="/tags/Hexo/" style="font-size: 12.50px;">Hexo</a><a href="/tags/IO/" style="font-size: 12.50px;">IO</a><a href="/tags/View/" style="font-size: 17.50px;">View</a><a href="/tags/activity/" style="font-size: 15.00px;">activity</a><a href="/tags/android/" style="font-size: 20.00px;">android</a><a href="/tags/java/" style="font-size: 12.50px;">java</a><a href="/tags/开源/" style="font-size: 12.50px;">开源</a><a href="/tags/心理学/" style="font-size: 12.50px;">心理学</a><a href="/tags/思考与感悟/" style="font-size: 15.00px;">思考与感悟</a><a href="/tags/性能优化/" style="font-size: 10.00px;">性能优化</a><a href="/tags/搭建博客/" style="font-size: 12.50px;">搭建博客</a><a href="/tags/方法论/" style="font-size: 10.00px;">方法论</a><a href="/tags/职场/" style="font-size: 12.50px;">职场</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">小小程序猿一枚，专注于Android, Java开发。热爱生活，热爱互联网，热血动漫‘脑残粉’。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Daniel_Wen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/favicon.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Daniel_Wen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Whatever is worth doing is worth doing well.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/categories/随笔">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/HelloWorld1992" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-OkHttP的简单封装" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/20/OkHttP的简单封装/" class="article-date">
+  	<time datetime="2016-03-20T15:06:55.000Z" itemprop="datePublished">3月 20 2016</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OkHttP的简单封装
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开源/">开源</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/学习/">学习</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目要求把网络访问那一块改为使用OkHttp，于是就把Okhttp的基本使用封装了一下。关于okttp的异步请求、缓存以及拦截器等其他功能用法后续补充。<a id="more"></a></p>
+<pre><code><span class="keyword">package</span> com.belief.androidlearning.OkHttp;
+
+<span class="keyword">import</span> android.net.Uri;
+<span class="keyword">import</span> android.text.TextUtils;
+
+<span class="keyword">import</span> com.belief.androidlearning.util.FileCopyUtil;
+
+<span class="keyword">import</span> java.io.BufferedInputStream;
+<span class="keyword">import</span> java.io.BufferedReader;
+<span class="keyword">import</span> java.io.File;
+<span class="keyword">import</span> java.io.IOException;
+<span class="keyword">import</span> java.io.InputStream;
+<span class="keyword">import</span> java.io.InputStreamReader;
+<span class="keyword">import</span> java.net.FileNameMap;
+<span class="keyword">import</span> java.net.URLConnection;
+<span class="keyword">import</span> java.util.ArrayList;
+<span class="keyword">import</span> java.util.HashMap;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.Map;
+<span class="keyword">import</span> java.util.concurrent.TimeUnit;
+<span class="keyword">import</span> java.util.zip.GZIPInputStream;
+
+<span class="keyword">import</span> okhttp3.Call;
+<span class="keyword">import</span> okhttp3.Cookie;
+<span class="keyword">import</span> okhttp3.CookieJar;
+<span class="keyword">import</span> okhttp3.FormBody;
+<span class="keyword">import</span> okhttp3.Headers;
+<span class="keyword">import</span> okhttp3.HttpUrl;
+<span class="keyword">import</span> okhttp3.MediaType;
+<span class="keyword">import</span> okhttp3.MultipartBody;
+<span class="keyword">import</span> okhttp3.OkHttpClient;
+<span class="keyword">import</span> okhttp3.Request;
+<span class="keyword">import</span> okhttp3.RequestBody;
+<span class="keyword">import</span> okhttp3.Response;
+
+<span class="javadoc">/**
+ * Created by wh on 2016/3/20.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OkHttpUtil</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> String TAG = OkHttpUtil.class.getSimpleName();
+
+    <span class="keyword">private</span> <span class="keyword">static</span> OkHttpUtil mInstance;
+    <span class="keyword">private</span> OkHttpClient mOkHttpClient;
+
+
+    <span class="keyword">private</span> <span class="title">OkHttpUtil</span>(){
+        mOkHttpClient = <span class="keyword">new</span> OkHttpClient.Builder()
+        .connectTimeout(<span class="number">30</span>, TimeUnit.SECONDS)
+        .writeTimeout(<span class="number">10</span>,TimeUnit.SECONDS)
+        .readTimeout(<span class="number">30</span>, TimeUnit.SECONDS)
+        <span class="comment">//Cookie管理，Coolie持久化方案可以参考：https://github.com/franmontiel/PersistentCookieJar</span>
+        .cookieJar(<span class="keyword">new</span> CookieJar() {
+            <span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;HttpUrl, List&lt;Cookie&gt;&gt; cookieStore = <span class="keyword">new</span> HashMap&lt;&gt;();
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveFromResponse</span>(HttpUrl url, List&lt;Cookie&gt; cookies) {
+                cookieStore.put(url, cookies);
+            }
+
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> List&lt;Cookie&gt; <span class="title">loadForRequest</span>(HttpUrl url) {
+                List&lt;Cookie&gt; cookies = cookieStore.get(url);
+                <span class="keyword">return</span> cookies != <span class="keyword">null</span> ? cookies : <span class="keyword">new</span> ArrayList&lt;Cookie&gt;();
+            }
+        })
+        .build();
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> OkHttpUtil <span class="title">getInstance</span>(){
+        <span class="keyword">if</span>(mInstance == <span class="keyword">null</span>){
+            <span class="keyword">synchronized</span> (OkHttpUtil.class){
+                <span class="keyword">if</span>(mInstance == <span class="keyword">null</span>){
+                    mInstance = <span class="keyword">new</span> OkHttpUtil();
+                }
+            }
+        }
+        <span class="keyword">return</span> mInstance;
+    }
+
+    <span class="comment">//同步Get请求</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">get</span>(String url, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        <span class="keyword">return</span> get(url, params, <span class="keyword">false</span>);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">get</span>(String url, List&lt;Param&gt; params, <span class="keyword">boolean</span> isAcceptGzipResponse) <span class="keyword">throws</span> IOException{
+        String result = <span class="string">""</span>;
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().getRequest(url, params);
+            <span class="keyword">if</span>(response.isSuccessful()){
+                <span class="keyword">if</span>(<span class="string">"gzip"</span>.equals(response.header(<span class="string">"Content-Encoding"</span>)) || isAcceptGzipResponse){
+                    InputStream inputStream = response.body().byteStream();
+                    BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(inputStream);
+                    inputStream = <span class="keyword">new</span> GZIPInputStream(bis);
+                    InputStreamReader inputStreamReader = <span class="keyword">new</span> InputStreamReader(inputStream);
+                    BufferedReader br = <span class="keyword">new</span> BufferedReader(inputStreamReader);
+                    StringBuffer sb = <span class="keyword">new</span> StringBuffer(<span class="string">""</span>);
+                    String line;
+                    <span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {
+                        sb.append(line);
+                        sb.append(<span class="string">"\n"</span>);
+                    }
+                    inputStreamReader.close();
+                    br.close();
+                    result = sb.toString();
+                }<span class="keyword">else</span>{
+                    <span class="comment">//没进行压缩</span>
+                    result = response.body().string();
+                }
+            }
+        } <span class="keyword">catch</span> (IOException e) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="javadoc">/**
+     * post请求，内部已经对参数urlencoding编码，不用再编码
+     *<span class="javadoctag"> @param</span> url url最好是不带参数的基本的url,如果带有&lt;code&gt;?&lt;/code&gt;,则至少要有一对参数
+     *<span class="javadoctag"> @param</span> params get请求的参数都可以放在这里,null或者空List表示没有参数
+     *<span class="javadoctag"> @return</span> String 默认返回空字符串
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">post</span>(String url, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        String result = <span class="string">""</span>;
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().postRequest(url, params);
+            <span class="keyword">if</span>(response.isSuccessful()){
+                result = response.body().string();
+            }
+        } <span class="keyword">catch</span> (IOException e) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="comment">//post json数据</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">postString</span>(String url, String entityString) <span class="keyword">throws</span> IOException{
+        String result = <span class="string">""</span>;
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().postRequest(url, entityString);
+            <span class="keyword">if</span>(response.isSuccessful()){
+                result = response.body().string();
+            }
+        } <span class="keyword">catch</span> (IOException e) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="javadoc">/**
+     * 该方法是为了解决服务端没有返回码的情况，通过返回值来判断是否请求成功
+     *<span class="javadoctag"> @param</span> url
+     *<span class="javadoctag"> @param</span> entityString
+     *<span class="javadoctag"> @return</span>
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">postNullResultRequest</span>(String url, String entityString){
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().postRequest(url, entityString);
+        } <span class="keyword">catch</span> (IOException e) {
+        }
+        <span class="keyword">return</span> response.code();
+    }
+
+    <span class="javadoc">/**
+     * 向服务端提交参数为&lt;code&gt;xml&lt;/code&gt;的POST请求
+     *<span class="javadoctag"> @param</span> url 要提交数据的url
+     *<span class="javadoctag"> @param</span> xmlValue 参数为xml对应的值
+     *<span class="javadoctag"> @return</span> 返回数据，异常返回null
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">postXmlRequest</span>(String url,String xmlValue) <span class="keyword">throws</span> IOException {
+        List&lt;Param&gt; params = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">1</span>);
+        Param param = <span class="keyword">new</span> Param(<span class="string">"xml"</span>, xmlValue);
+        params.add(param);
+        <span class="keyword">return</span> post(url, params);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">uploadFile</span>(String url, File file) <span class="keyword">throws</span> IOException{
+        <span class="keyword">return</span> uploadFile(url, file, <span class="keyword">null</span>);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">uploadFile</span>(String url, File file, List&lt;Param&gt; headers) <span class="keyword">throws</span> IOException{
+        <span class="keyword">return</span> uploadFile(url, file, headers, <span class="keyword">null</span>);
+    }
+
+    <span class="javadoc">/**
+     * 上传单个文件
+     *<span class="javadoctag"> @param</span> url 服务器地址
+     *<span class="javadoctag"> @param</span> file 上传的文件
+     *<span class="javadoctag"> @param</span> headers 请求头
+     *<span class="javadoctag"> @param</span> params 请求参数
+     * */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">uploadFile</span>(String url, File file, List&lt;Param&gt; headers, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        String result = <span class="string">""</span>;
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().upload(url, file, headers, params);
+            <span class="keyword">if</span>(response.isSuccessful()){
+                result = response.body().string();
+            }
+        } <span class="keyword">catch</span> (IOException e) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> Response <span class="title">uploadFileReturnResonse</span>(String url, File file, List&lt;Param&gt; headers, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        <span class="keyword">return</span> getInstance().upload(url, file, headers, params);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">downLoadFile</span>(String url, File saveFile) <span class="keyword">throws</span> IOException{
+        <span class="keyword">return</span> downLoadFile(url, saveFile, <span class="keyword">null</span>, <span class="keyword">null</span>);
+    }
+
+    <span class="javadoc">/**
+     * 以Get请求的方式请网络上下载文件,并返回保存的文件路径，失败返回空
+     *<span class="javadoctag"> @param</span> url 要下载的文件的url
+     *<span class="javadoctag"> @param</span> saveFile 要保存成的文件
+     *<span class="javadoctag"> @param</span> headers 请求头
+     *<span class="javadoctag"> @param</span> params 请求参数
+     *<span class="javadoctag"> @return</span> 返回文件的绝对路径，有异常返回空
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">downLoadFile</span>(String url, File saveFile, List&lt;Param&gt; headers, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        String saveFilePath = <span class="string">""</span>;
+        Response response = <span class="keyword">null</span>;
+        <span class="keyword">try</span> {
+            response = getInstance().downLoad(url, headers, params);
+            <span class="keyword">if</span>(response.isSuccessful()){
+                FileCopyUtil.copy(response.body().byteStream(), saveFile);
+                <span class="keyword">long</span> localPicSize = saveFile.length();
+                <span class="keyword">if</span>(localPicSize&gt;<span class="number">0</span>){
+                    saveFilePath=saveFile.getAbsolutePath();
+                }<span class="keyword">else</span>{
+                    saveFilePath = <span class="string">""</span>;
+                }
+            }
+        } <span class="keyword">catch</span> (IOException e) {
+            <span class="keyword">throw</span> e;
+        }
+        <span class="keyword">return</span> saveFilePath;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancleCallWithTag</span>(Object tag){
+        <span class="keyword">if</span>(tag == <span class="keyword">null</span>){
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">synchronized</span> (mOkHttpClient.dispatcher().getClass()){
+            <span class="keyword">for</span>(Call call: mOkHttpClient.dispatcher().queuedCalls()){
+                <span class="keyword">if</span>(tag.equals(call.request().tag())){
+                    call.cancel();
+                }
+            }
+        }
+    }
+
+    <span class="keyword">private</span> Response <span class="title">getRequest</span>(String url, List&lt;Param&gt; params) <span class="keyword">throws</span>  IOException{
+        String queryParameter = <span class="string">""</span>;
+        <span class="keyword">if</span>(params != <span class="keyword">null</span>){
+            queryParameter = getRequestParameters(params);
+        }
+        Uri uri = Uri.parse(url);
+        <span class="keyword">if</span>(TextUtils.isEmpty(uri.getQuery())){
+            <span class="keyword">if</span>(!TextUtils.isEmpty(queryParameter)){
+                url = url + <span class="string">"?"</span> + queryParameter;
+            }
+        }<span class="keyword">else</span>{
+            <span class="keyword">if</span>(!TextUtils.isEmpty(queryParameter)){
+                url = url + <span class="string">"&amp;"</span> + queryParameter;
+            }
+        }
+        <span class="keyword">final</span> Request getRequest = <span class="keyword">new</span> Request.Builder().url(url).build();
+        <span class="keyword">return</span> mOkHttpClient.newCall(getRequest).execute();
+    }
+
+    <span class="keyword">private</span> Response <span class="title">postRequest</span>(String url, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        FormBody.Builder fbBuilder = <span class="keyword">new</span> FormBody.Builder();
+        <span class="keyword">if</span>(params != <span class="keyword">null</span> &amp;&amp; !params.isEmpty()){
+            <span class="keyword">for</span>(Param param : params){
+                fbBuilder.add(param.key, param.value);
+            }
+        }
+        <span class="keyword">final</span> Request postRequest = <span class="keyword">new</span> Request.Builder().url(url).post(fbBuilder.build()).build();
+        <span class="keyword">return</span> mOkHttpClient.newCall(postRequest).execute();
+    }
+
+    <span class="keyword">private</span> Response <span class="title">postRequest</span>(String url, String json) <span class="keyword">throws</span> IOException{
+        RequestBody requestBody = RequestBody.create(MediaType.parse(<span class="string">"application/json; charset=utf-8"</span>), json);
+        <span class="keyword">final</span> Request postRequest = <span class="keyword">new</span> Request.Builder().url(url).post(requestBody).build();
+        <span class="keyword">return</span> mOkHttpClient.newCall(postRequest).execute();
+    }
+
+    <span class="keyword">private</span> Response <span class="title">downLoad</span>(String url, List&lt;Param&gt; headers, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        <span class="keyword">if</span>(params != <span class="keyword">null</span> &amp;&amp; !params.isEmpty()){
+            String parameters = getRequestParameters(params);
+            Uri uri = Uri.parse(url);
+            <span class="keyword">if</span>(TextUtils.isEmpty(uri.getQuery())){
+                url = url + <span class="string">"?"</span> +parameters;
+            }<span class="keyword">else</span>{
+                url = url + <span class="string">"&amp;"</span> +parameters;
+            }
+        }
+        Headers header = <span class="keyword">null</span>;
+        <span class="keyword">if</span>(headers != <span class="keyword">null</span> &amp;&amp; !headers.isEmpty()){
+            header = getRequestHeaders(headers);
+        }
+        Request.Builder builder = <span class="keyword">new</span> Request.Builder();
+        builder.url(url);
+        <span class="keyword">if</span>(header != <span class="keyword">null</span>){
+            builder.headers(header);
+        }
+        <span class="keyword">return</span> mOkHttpClient.newCall(builder.build()).execute();
+    }
+
+    <span class="keyword">private</span> Response <span class="title">upload</span>(String url, File file, List&lt;Param&gt; headers, List&lt;Param&gt; params) <span class="keyword">throws</span> IOException{
+        MultipartBody.Builder multipartBuilder = <span class="keyword">new</span> MultipartBody.Builder();
+        <span class="keyword">if</span>(headers != <span class="keyword">null</span> &amp;&amp; !headers.isEmpty()){
+            multipartBuilder.addPart(getRequestHeaders(headers),RequestBody.create(MediaType.parse(getFileMimeType(file.getName())), file));
+        }
+        <span class="keyword">if</span>(params != <span class="keyword">null</span> &amp;&amp; !params.isEmpty()){
+            <span class="keyword">for</span>(Param param : params){
+                multipartBuilder.addFormDataPart(param.key, param.value);
+            }
+        }
+        <span class="keyword">final</span> Request uploadRequest = <span class="keyword">new</span> Request.Builder().url(url).post(multipartBuilder.build()).build();
+        <span class="keyword">return</span> mOkHttpClient.newCall(uploadRequest).execute();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getFileMimeType</span>(String fileName){
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentType = fileNameMap.getContentTypeFor(fileName);
+        <span class="keyword">if</span>(contentType == <span class="keyword">null</span>){
+            contentType = <span class="string">"application/octet-stream"</span>;
+        }
+        <span class="keyword">return</span> contentType;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> Headers <span class="title">getRequestHeaders</span>(List&lt;Param&gt; headers){
+        Headers.Builder headerBuilder = <span class="keyword">null</span>;
+        <span class="keyword">if</span>(headers != <span class="keyword">null</span>){
+            headerBuilder = <span class="keyword">new</span> Headers.Builder();
+            <span class="keyword">for</span>(Param header : headers){
+                headerBuilder.add(header.key, header.value);
+            }
+        }
+        <span class="keyword">return</span> headerBuilder.build();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getRequestParameters</span>(List&lt;Param&gt; params){
+        StringBuilder paramSb = <span class="keyword">new</span> StringBuilder();
+        <span class="keyword">for</span>(Param param : params){
+            paramSb.append(param.key).append(<span class="string">"="</span>).append(param.value).append(<span class="string">"&amp;"</span>);
+        }
+        <span class="keyword">return</span> paramSb.substring(<span class="number">0</span>, paramSb.length()-<span class="number">1</span>);
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getRequestUrl</span>(String url,Map&lt;String, String&gt; params){
+        StringBuilder urlSb = <span class="keyword">new</span> StringBuilder(url);
+        urlSb.append(<span class="string">'?'</span>);
+        <span class="keyword">for</span>(String key : params.keySet()){
+            urlSb.append(key).append(<span class="string">'='</span>).append(params.get(key)).append(<span class="string">"&amp;"</span>);
+        }
+        <span class="keyword">return</span> urlSb.substring(<span class="number">0</span>, urlSb.length()-<span class="number">1</span>);
+    }
+
+    <span class="javadoc">/**
+     * post请求参数
+     * */</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Param</span></span>{
+        String key;
+        String value;
+
+        <span class="keyword">public</span> <span class="title">Param</span>(){
+
+        }
+
+        <span class="keyword">public</span> <span class="title">Param</span>(String key, String value){
+            <span class="keyword">this</span>.key = key;
+            <span class="keyword">this</span>.value = value;
+        }
+    }
+}
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/13/上传本地代码到github/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">上传本地代码到github</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="OkHttP的简单封装" data-title="OkHttP的简单封装" data-url="http://belief1992.com/2016/03/20/OkHttP的简单封装/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Daniel_Wen
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+ 
+</body>
+</html>
